@@ -8,4 +8,60 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Theme of the editor -->
+    <style name="BookTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/editColorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Style for a category in the editor -->
+    <style name="CategoryStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textColor">@color/editColorText</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <!-- Style for an EditText field in the editor -->
+    <style name="BookFieldStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Style for the measurement units for an EditText field in the editor -->
+    <style name="EditorUnitsStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <!-- style for the main-splash-start page items -->
+    <style name="main_page">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/list_item_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:textAppearanceLarge</item>
+        <item name="android:textColor">#ff9900</item>
+    </style>
+
+    <style name="MainMenuStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/menu_item_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:colorBackground">#ffff66</item>
+        <item name="android:textColor">#000099</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
 </resources>

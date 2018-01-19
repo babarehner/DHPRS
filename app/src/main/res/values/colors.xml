@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- original color by default
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    -->
+
+    <color name="colorPrimary">#007ACC</color>
+    <color name="colorPrimaryDark">#0726eb</color>
+    <color name="colorAccent">#FFD633</color>
+
+    <color name="color_blue_python">#007ACC</color>
+    <color name="color_gold_python">#d0dabe1d</color>
+
+    <color name="editColorPrimary">#2D3640</color>
+    <color name="editColorPrimaryDark">#394450</color>
+
+    <color name="editColorText">#003366</color>
+
 </resources>

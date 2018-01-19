@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Created by Mike Rehner 1/18/18. Page for entering Practice Records -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".RecordActivity">
+
+    <Button
+        android:id="@+id/button_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="Date" />
+
+    <Button
+        android:id="@+id/button_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="Time" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Symptom Before"
+            style="@style/CategoryStyle" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
