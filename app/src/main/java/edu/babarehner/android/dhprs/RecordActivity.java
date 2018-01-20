@@ -1,7 +1,9 @@
 package edu.babarehner.android.dhprs;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -15,6 +17,16 @@ public class RecordActivity extends AppCompatActivity {
     //TODO implements LoaderManager.LoaderCallbacks<Cursor>
 
     public static final Integer[] RATINGS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    Context context;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_record);
+
+        setTitle("Add Records");
+
+    }
 
     // populate the spinner automatically instead of using arrays.xml
     private void setUpSpinner() {

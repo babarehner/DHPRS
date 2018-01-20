@@ -163,24 +163,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+
+    <!-- Label -->
+    <TextView
+        android:text="Comment:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:text="Comment"
-            style="@style/CategoryStyle" />
-
-        <EditText
-            android:id="@+id/comment"
-            android:hint="Enter comments here"
-            android:inputType="text"
-            style="@style/BookFieldStyle"/>
-
-    </LinearLayout>
+        android:textColor="@color/editColorText"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="?android:textAppearanceSmall"/>
 
 
+    <EditText
+        android:id="@+id/comment"
+        android:hint="Enter comment here"
+        android:inputType="textMultiLine"
+        style="@style/BookFieldStyle"
+        android:minLines="2"/>
 
 </LinearLayout>
+
+
