@@ -129,7 +129,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinner_rating3"
+                android:id="@+id/spinner3"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -180,6 +180,7 @@
         android:inputType="textMultiLine"
         style="@style/BookFieldStyle"
         android:minLines="2"/>
+
 
 </LinearLayout>
 
