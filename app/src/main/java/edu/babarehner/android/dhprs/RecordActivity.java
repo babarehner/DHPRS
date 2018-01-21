@@ -1,16 +1,26 @@
 package edu.babarehner.android.dhprs;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 /**
  * Created by mike on 1/18/18.
  */
+
 
 public class RecordActivity extends AppCompatActivity {
 
@@ -18,7 +28,14 @@ public class RecordActivity extends AppCompatActivity {
 
     public static final Integer[] RATINGS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     public static final CharSequence[] PRACTYPE ={"Other", "Phone App", "Recording"};
+    private TextView tvDate;
+    private Button pickDate;
+    int mYear, mMonth, mDay;
 
+    static final int DATE_DIALOG_ID = 0;
+    static final int TIME_DIALOG_ID = 1;
+
+    //TODO wire up time button
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
@@ -27,9 +44,65 @@ public class RecordActivity extends AppCompatActivity {
 
         setUpSpinners();
 
+        getDate();
+
+
+
     }
 
-    // TODO wire up spinners to show up data
+    // get up date picker
+    public void getDate() {
+
+        tvDate = (TextView) findViewById(R.id.tvDate);
+        pickDate = (Button) findViewById(R.id.pick_date);
+
+        // add a click listener to the button
+        pickDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
+
+        //get the current date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch(id) {
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this, DateSetListener, mYear, mMonth, mDay);
+        }
+        return null;
+    }
+
+    //updates the date displayed in TextView
+    private void updateDisplay() {
+         tvDate.setText(
+         new StringBuilder()
+                 .append((mMonth + 1) +"/")
+                 .append(mDay + "/")
+                 .append(mYear + " "));
+    }
+
+    // the callback received when the user sets the date in the dialog
+    private DatePickerDialog.OnDateSetListener DateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = month;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+                }
+            };
+
+
+
     // populate the spinner automatically instead of using arrays.xml
     private void setUpSpinners() {
 
