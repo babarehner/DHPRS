@@ -5,4 +5,9 @@
     <string name="empty_view_title_text">OH NO Mr. Bill I\'m a lazy Lima Bean who has not entered anything in the Record Sheet</string>
     <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Please get started adding some records by clicking on the button below</string>
+
+    <!-- Title text for RecordActivity page -->
+    <string name="record_activity_title_add_record">Add Record</string>
+    <string name="record_activity_title_edit_record">Edit Reord</string>
+
 </resources>

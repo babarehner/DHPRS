@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/sp_1"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -89,7 +89,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/sp_2"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -115,7 +115,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/prac_type"
+                android:id="@+id/sp_pracType"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -141,7 +141,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinner3"
+                android:id="@+id/sp_3"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -151,7 +151,7 @@
 
 
     <LinearLayout
-        android:id="@+id/container_spinner_rating5"
+        android:id="@+id/container_spinner_rating4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -168,7 +168,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinner4"
+                android:id="@+id/sp_4"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
@@ -200,7 +200,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="false"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:text="Enter" />
 
 
