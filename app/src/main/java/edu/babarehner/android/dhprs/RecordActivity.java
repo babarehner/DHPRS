@@ -26,7 +26,6 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.net.Uri;
 
-import java.net.DatagramPacket;
 import java.util.Calendar;
 
 import edu.babarehner.android.dhprs.data.RecordContract;
@@ -39,7 +38,8 @@ import edu.babarehner.android.dhprs.data.RecordContract;
 public class RecordActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // rating integers to populate the spinners
-    public static final String[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    public static final CharSequence[] PRAC_TYPE = {"Paper", "Phone App", "Recording"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
@@ -52,10 +52,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     static final int EXISTING_RECORD_LOADER = 2;
 
     private Spinner sp1,sp2,sp3,sp4,spPracType; // the spinner
-    // the value coming out of the spinner
-    private int mSp1_val, mSp2_val, mSp3_val, mSp4_val;
-    private String mSpPractType_val;
-    
+    private String mSpPractType_val, mSp1_val, mSp2_val, mSp3_val, mSp4_val = ""; // the values from the spinner
+    private String[] spin_val = {mSp1_val, mSp2_val, mSpPractType_val, mSp3_val, mSp4_val  };
     private EditText mCommentEditText;
     
     private boolean mRecordChanged = false; // When edit change made ot record row
@@ -69,7 +67,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         }
     };
 
-   String s;
     
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,8 +103,14 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         sp4.setOnTouchListener(mTouchListener);
         mCommentEditText.setOnTouchListener(mTouchListener);
         
-        // Loads the spinners with data
-        setUpSpinners();
+        // Loads the spinners with strings from an array
+        sp1 = getSpinnerVal(R.id.sp_1, RATINGS, 0);
+        sp2 = getSpinnerVal(R.id.sp_2, RATINGS, 1);
+        spPracType = getSpinnerVal(R.id.sp_pracType, PRAC_TYPE, 2);
+        sp3 = getSpinnerVal(R.id.sp_3, RATINGS, 3);
+        sp4 = getSpinnerVal(R.id.sp_4, RATINGS, 4);
+
+        // setUpSpinners();
         
         //TODO these need to get moved into methods
         getDate();
@@ -279,35 +282,44 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    /* need to figure out how to pass the R.id.sp_n parameter
-    private String getSpinnerVal(Spinner s, TextView sp_n) {
-        final int spin_val;
-        s = (Spinner) findViewById(sp_n);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, RATINGS);
-        // Specify the layout to use when the list of choices appear
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter1); // apply the adapter to the spinner
-        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              private int spin_val;
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  String selection = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", selection);
-                  spin_val = Integer.parseInt(selection);
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                  spin_val = 0;
-              }
-             return spin_val ;                          }
-        );
+    // puts a 0 in front of a single digit time number
+    private static String pad(int c) {
+        if (c >= 10) {
+            return String.valueOf(c);
+        }
+        else {
+            return "0" + String.valueOf(c);
+        }
     }
-    */
 
-    // TODO set this up as one method with using spinner and spinner_val as parameters
+
+    // need to clean this up and change/verifiy how/where I get data out
+    private Spinner getSpinnerVal(int resourceID, final CharSequence[] a, final int i) {
+        Log.v("RecordActivity", Integer.toString(resourceID));
+        Spinner s = (Spinner)  findViewById(resourceID);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, a);
+        // Specify the layout to use when the list of choices appear
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter); // apply the adapter to the spinner
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                Log.v("RecordActivity", selection);
+                spin_val[i] = selection;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spin_val[0] = a[0].toString();
+            }
+        });
+        return s;
+    }
+
+    /*
     // populate the spinner automatically instead of using arrays.xml
-    private void setUpSpinners() {
+    private void setUpSpinners() {      //not used currently have to verify above with db
 
         sp1 = (Spinner) findViewById(R.id.sp_1);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
@@ -324,7 +336,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
               }
               @Override
               public void onNothingSelected(AdapterView<?> parent) {
-                mSp1_val = 0;
+                  mSp1_val = 0;
               }
           }
         );
@@ -336,17 +348,17 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         // Specify the layout to use when the list of choices appear
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp2.setAdapter(adapter2); // apply the adapter to the spinner
-        sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
               @Override
               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                   String selection = (String) parent.getItemAtPosition(position);
                   Log.v("RecordActivity", selection);
-                  mSp2_val = Integer.parseInt(selection);
+                  mSp2_val = selection;
               }
 
               @Override
               public void onNothingSelected(AdapterView<?> parent) {
-                mSp2_val = 0;
+                mSp2_val = "0";
               }
           }
         );
@@ -363,11 +375,11 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                   String selection = (String) parent.getItemAtPosition(position);
                   Log.v("RecordActivity", selection);
-                  mSp3_val = Integer.parseInt(selection);
+                  mSp3_val = (selection);
               }
               @Override
               public void onNothingSelected(AdapterView<?> parent) {
-                  mSp3_val = 0;
+                  mSp3_val = "0";
               }
           }
         );
@@ -382,21 +394,20 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         sp4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
               @Override
               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  String selection = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", selection);
-                  mSp4_val = Integer.parseInt(selection);
+                  mSp4_val= (String) parent.getItemAtPosition(position);
+                  Log.v("RecordActivity", mSp4_val);
               }
               @Override
               public void onNothingSelected(AdapterView<?> parent) {
-                  mSp4_val = 0;
+                  mSp4_val = "0";
               }
           }
         );
 
 
         spPracType = (Spinner) findViewById(R.id.sp_pracType);
-        ArrayAdapter<CharSequence> adapter_pracType = ArrayAdapter.createFromResource(this,
-                R.array.spinner_practype, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter_pracType = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, PRAC_TYPE);
         adapter_pracType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPracType.setAdapter(adapter_pracType);
         spPracType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -404,6 +415,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                   mSpPractType_val = (String) parent.getItemAtPosition(position);
                   Log.v("RecordActivity", mSpPractType_val);
+
               }
               @Override
               public void onNothingSelected(AdapterView<?> parent) {
@@ -413,15 +425,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         );
 
     }
+    */
 
-    // puts a 0 in front of a single digit time number
-    private static String pad(int c) {
-        if (c >= 10) {
-            return String.valueOf(c);
-        }
-        else {
-            return "0" + String.valueOf(c);
-        }
-    }
+
 
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--
     <string-array name="spinner_practype">
         <item>Paper</item>
         <item>Phone App</item>
         <item>Recording</item>
     </string-array>
-
+    -->
 </resources>
