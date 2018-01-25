@@ -1,5 +1,6 @@
 package edu.babarehner.android.dhprs.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -26,7 +27,7 @@ public final class RecordContract {
      */
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_TDHPRS = "DHPRS";
+    public static final String PATH_TRECORDS = "TRecords";
     public static final String PATH_TBP = "BP";
 
     /**
@@ -35,12 +36,19 @@ public final class RecordContract {
      */
     public static final class RecordEntry implements BaseColumns {
 
-        // The MIME type of the (@Link #CONTENT_URI for the library database table
-        // TODO implement content uri's
+        // The MIME type of the (@Link #CONTENT_URI for the record database table
+        public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_TRECORDS;
+        // The MIME type of the (@link #CONTENT_URI for a single record
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_TRECORDS;
+        // The content URI to access therecord data in the provider
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
+                PATH_TRECORDS);
 
 
         // name of db table for Daily Home Practice Recording Sheet
-        public final static String TDHPRS = "TDhprs";
+        public final static String TRECORDS = "TRecords";
         // Primary key to be autoincremaented. Required name for some Android APIs
         // Column names in TDHPRS
         public static final String _IDD = BaseColumns._ID;

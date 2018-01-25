@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TDHPRS;
+import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TRECORDS;
 import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry._IDD;
 
 /**
@@ -30,7 +30,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
     // SQL statements to create the tables
     @Override
     public void onCreate(SQLiteDatabase db){
-        String SQL_CREATE_DHPRS_TABLE = "CREATE TABLE " + TDHPRS + "("
+        String SQL_CREATE_DHPRS_TABLE = "CREATE TABLE " + TRECORDS + "("
                 + _IDD + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RecordContract.RecordEntry.CDATE + " DATE_NOT_NULL, "
                 + RecordContract.RecordEntry.CTIME + " TEXT_NOT_NULL, "

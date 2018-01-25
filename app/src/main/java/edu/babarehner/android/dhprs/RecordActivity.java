@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.net.Uri;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 import edu.babarehner.android.dhprs.data.RecordContract;
@@ -37,13 +41,14 @@ import edu.babarehner.android.dhprs.data.RecordContract;
 //TODO save the data to the database
 public class RecordActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // rating integers to populate the spinners
+    // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     public static final CharSequence[] PRAC_TYPE = {"Paper", "Phone App", "Recording"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
-    private TextView tvDate, tvTime;
+    private TextView tvDate;
+    private TextView tvTime;
     private Button pickDate, pickTime, butEnter ;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -51,9 +56,9 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     static final int TIME_DIALOG_ID = 1;
     static final int EXISTING_RECORD_LOADER = 2;
 
-    private Spinner sp1,sp2,sp3,sp4,spPracType; // the spinner
-    private String mSpPractType_val, mSp1_val, mSp2_val, mSp3_val, mSp4_val = ""; // the values from the spinner
-    private String[] spin_val = {mSp1_val, mSp2_val, mSpPractType_val, mSp3_val, mSp4_val  };
+    private Spinner sp1,sp2, spPracType, sp3,sp4; // the spinner
+    //private String mSpPractType_val = "", mSp1_val = "", mSp2_val = "", mSp3_val = "", mSp4_val = ""; // the values from the spinner
+    private String[] spin_val = {"", "", "", "", ""  }; // Array of values
     private EditText mCommentEditText;
     
     private boolean mRecordChanged = false; // When edit change made ot record row
@@ -72,7 +77,9 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
-
+        // initialization required or it crashes- why doesn't it work when I initialize it above????
+        tvDate = (TextView) findViewById(R.id.tvDate);
+        tvTime = (TextView) findViewById(R.id.tvTime);
 
         // get intent and get data from intent
         Intent intent = getIntent();
@@ -96,6 +103,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         mCommentEditText = (EditText) findViewById(R.id.comment);
         
         // Set up Touch listener on all the input fields to see if user touched a field
+        tvDate.setOnTouchListener(mTouchListener);
+        tvTime.setOnTouchListener(mTouchListener);
         sp1.setOnTouchListener(mTouchListener);
         sp2.setOnTouchListener(mTouchListener);
         spPracType.setOnTouchListener(mTouchListener);
@@ -128,8 +137,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 RecordContract.RecordEntry.CSYMP_BEFORE,
                 RecordContract.RecordEntry.CSTRESS_BEFORE,
                 RecordContract.RecordEntry.CPRAC_TYPE,
-                RecordContract.RecordEntry.CSYMP_AFTER,
                 RecordContract.RecordEntry.CSTRESS_AFTER,
+                RecordContract.RecordEntry.CSYMP_AFTER,
                 RecordContract.RecordEntry.CCOMMENTS};
 
         // Start a new thread
@@ -293,7 +302,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // need to clean this up and change/verifiy how/where I get data out
+    // need to clean this up and change/verifiy how/where I get data out after I can easily verify data
     private Spinner getSpinnerVal(int resourceID, final CharSequence[] a, final int i) {
         Log.v("RecordActivity", Integer.toString(resourceID));
         Spinner s = (Spinner)  findViewById(resourceID);
@@ -317,116 +326,37 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         return s;
     }
 
-    /*
-    // populate the spinner automatically instead of using arrays.xml
-    private void setUpSpinners() {      //not used currently have to verify above with db
 
-        sp1 = (Spinner) findViewById(R.id.sp_1);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, RATINGS);
-        // Specify the layout to use when the list of choices appear
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp1.setAdapter(adapter1); // apply the adapter to the spinner
-        sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  String selection = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", selection);
-                  mSp1_val = Integer.parseInt(selection);
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                  mSp1_val = 0;
-              }
-          }
-        );
+    private void saveRecord() {
+        // read from input fields
+        String dateString = tvDate.getText().toString();
+        String timeString = tvTime.getText().toString();
+        String symptomBeforeRating = spin_val[0];
+        String stressBeforeRating = spin_val[1];
+        String pracType = spin_val[2];
+        String symptomAfterRating = spin_val[3];
+        String stressAfterRating = spin_val[4];
+        String comment = mCommentEditText.getText().toString().trim();
 
+        // if the date field is left blank do nothing
+        if (mCurrentRecordUri == null & TextUtils.isEmpty(dateString)) {
+            Toast.makeText(this, getString(R.string.missing_date), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        sp2 = (Spinner) findViewById(R.id.sp_2);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, RATINGS);
-        // Specify the layout to use when the list of choices appear
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp2.setAdapter(adapter2); // apply the adapter to the spinner
-        sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  String selection = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", selection);
-                  mSp2_val = selection;
-              }
+        ContentValues values = new ContentValues();
+        values.put(RecordContract.RecordEntry.CDATE, dateString);
+        values.put(RecordContract.RecordEntry.CTIME, timeString);
+        values.put(RecordContract.RecordEntry.CSYMP_BEFORE, symptomBeforeRating);
+        values.put(RecordContract.RecordEntry.CSTRESS_BEFORE, stressBeforeRating);
+        values.put(RecordContract.RecordEntry.CPRAC_TYPE, pracType);
+        values.put(RecordContract.RecordEntry.CSYMP_AFTER, symptomAfterRating);
+        values.put(RecordContract.RecordEntry.CSTRESS_AFTER, stressAfterRating);
+        values.put(RecordContract.RecordEntry.CCOMMENTS, comment);
 
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                mSp2_val = "0";
-              }
-          }
-        );
-
-
-        sp3 = (Spinner) findViewById(R.id.sp_3);
-        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, RATINGS);
-        // Specify the layout to use when the list of choices appear
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp3.setAdapter(adapter3); // apply the adapter to the spinner
-        sp3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  String selection = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", selection);
-                  mSp3_val = (selection);
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                  mSp3_val = "0";
-              }
-          }
-        );
-
-
-        sp4 = (Spinner) findViewById(R.id.sp_4);
-        ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, RATINGS);
-        // Specify the layout to use when the list of choices appear
-        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp4.setAdapter(adapter4); // apply the adapter to the spinner
-        sp4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  mSp4_val= (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", mSp4_val);
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                  mSp4_val = "0";
-              }
-          }
-        );
-
-
-        spPracType = (Spinner) findViewById(R.id.sp_pracType);
-        ArrayAdapter<CharSequence> adapter_pracType = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, PRAC_TYPE);
-        adapter_pracType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spPracType.setAdapter(adapter_pracType);
-        spPracType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  mSpPractType_val = (String) parent.getItemAtPosition(position);
-                  Log.v("RecordActivity", mSpPractType_val);
-
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                  mSpPractType_val = "Paper";
-              }
-          }
-        );
-
+        if (mCurrentRecordUri == null) {
+            // a new record
+            Uri newUri = getContentResolver().insert(RecordContract.RecordEntry.CONTENT_URI, values);
+        }
     }
-    */
-
-
-
 }
