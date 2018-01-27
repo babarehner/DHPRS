@@ -7,13 +7,18 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -358,5 +363,175 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             // a new record
             Uri newUri = getContentResolver().insert(RecordContract.RecordEntry.CONTENT_URI, values);
         }
+
+        if (mCurrentRecordUri == null) {
+            // a new book
+            Uri newUri = getContentResolver().insert(RecordContract.RecordEntry.CONTENT_URI, values);
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.record_provider_insert_record_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.record_provider_insert_record_good),
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // existing book so update with content URI and pass in ContentValues
+            int rowsAffected = getContentResolver().update(mCurrentRecordUri, values, null, null);
+            if (rowsAffected == 0) {
+                // TODO Check db- Text Not Null does not seem to be working or entering
+                // "" does not mean NOT Null- there must be an error message closer to the db!!!
+                Toast.makeText(this, getString(R.string.edit_update_record_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.edit_update_record_success),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
+
+    // Options menu automatially called from onCreate I believe
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+
+        return true;
+    }
+
+    // Select from the options menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveRecord();
+                finish();       // exit activity
+                return true;
+            case R.id.action_delete:
+                // Alert Dialog for deleting one book
+                showDeleteConfirmationDialog();
+                return true;
+            // this is the <- button on the header
+            case android.R.id.home:
+                // book has not changed
+                if (!mRecordChanged) {
+                    NavUtils.navigateUpFromSameTask(RecordActivity.this);
+                    return true;
+                }
+                // set up dialog to warn user about unsaved changes
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                //user click discard. Navigate up to parent activity
+                                NavUtils.navigateUpFromSameTask(RecordActivity.this);
+                            }
+                        };
+                // show user they have unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    // delete book from db
+    private void deleteRecord(){
+        if (mCurrentRecordUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentRecordUri, null, null);
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, getString(R.string.delete_record_failure),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.delete_record_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
+    }
+
+
+    // hide delete menu item when adding a new book
+    @Override
+    public boolean onPrepareOptionsMenu(Menu m) {
+        super.onPrepareOptionsMenu(m);
+        // if this is add a book, hide "delete" menu item
+        if (mCurrentRecordUri == null) {
+            MenuItem menuItem = m.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+
+    // Override the activity's normal back button. If book has changed create a
+    // discard click listener that closed current activity.
+    @Override
+    public void onBackPressed() {
+        if (!mRecordChanged) {
+            super.onBackPressed();
+            return;
+        }
+        //otherwise if there are unsaved changes setup a dialog to warn the  user
+        //handles the user confirming that changes should be made
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        // user clicked "Discard" button, close the current activity
+                        finish();
+                    }
+                };
+
+        // show dialog that there are unsaved changes
+        showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+
+
+
+
+    private void showDeleteConfirmationDialog() {
+        // Create and AlertDialog.Builder, set message and click
+        // listeners for positive and negative buttons
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User clicked delet so delete
+                deleteRecord();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked cancel, dismiss dialog, continue editing
+                if (dialog != null) {dialog.dismiss();}
+            }
+        });
+        // Create and show dialog
+        AlertDialog alertD = builder.create();
+        alertD.show();
+    }
+
+
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener){
+        // Create AlertDialogue.Builder amd set message and click listeners
+        // for positive and negative buttons in dialogue.
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // user clicked the "keep eiditing" button. Dismiss dialog and keep editing
+                if (dialog !=null) { dialog.dismiss();}
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
 }

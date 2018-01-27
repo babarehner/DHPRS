@@ -10,6 +10,23 @@
     <string name="record_activity_title_add_record">Add Record</string>
     <string name="record_activity_title_edit_record">Edit Reord</string>
 
+
+    <!-- Record Activity messages -->
     <string name="missing_date">Please enter a date to add a record</string>
+    <string name="record_provider_insert_record_failed">record save failed</string>
+    <string name="record_provider_insert_record_good">record save succeeded</string>
+    <string name="edit_update_record_failed">Record update failed</string>
+    <string name="edit_update_record_success">Record update succeeded</string>
+    <string name="action_save">Save</string>
+    <!-- Delete alert dialog and delete single Record -->
+    <string name="action_delete">Delete this entry</string>
+    <string name="delete_dialog_msg">Delete this record</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="unsaved_changes_dialog_msg">Discard changes and quit editing</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="delete_record_failure">Record not deleted (Error)</string>
+    <string name="delete_record_successful">Record deleted</string>
 
 </resources>
