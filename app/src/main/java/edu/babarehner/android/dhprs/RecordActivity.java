@@ -134,7 +134,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // define a projection that contains all columns in TBooks
-        String[] projection = {RecordContract.RecordEntry._IDD,
+        String[] projection = {RecordContract.RecordEntry._IDR,
                 RecordContract.RecordEntry.CDATE,
                 RecordContract.RecordEntry.CTIME,
                 RecordContract.RecordEntry.CSYMP_BEFORE,

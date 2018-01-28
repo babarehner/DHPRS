@@ -51,7 +51,7 @@ public final class RecordContract {
         public final static String TRECORDS = "TRecords";
         // Primary key to be autoincremaented. Required name for some Android APIs
         // Column names in TDHPRS
-        public static final String _IDD = BaseColumns._ID;
+        public static final String _IDR = BaseColumns._ID;
         public static final String CDATE = "CDate";
         public static final String CTIME = "CTime";
         public static final String CSYMP_BEFORE = "CSympBefore";
