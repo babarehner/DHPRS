@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 
 import static edu.babarehner.android.dhprs.data.RecordContract.CONTENT_AUTHORITY;
 import static edu.babarehner.android.dhprs.data.RecordContract.PATH_TRECORDS;
-import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TRECORDS;
-import static edu.babarehner.android.dhprs.data.RecordDbHelper.DB_NAME;
 
 
 /**

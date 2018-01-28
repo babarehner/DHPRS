@@ -5,9 +5,9 @@ import android.app.Dialog;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,10 +30,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.content.Intent;
-import android.net.Uri;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -48,7 +44,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static final CharSequence[] PRAC_TYPE = {"Paper", "Phone App", "Recording"};
+    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
@@ -61,10 +57,10 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     static final int TIME_DIALOG_ID = 1;
     static final int EXISTING_RECORD_LOADER = 2;
 
-    private Spinner sp1,sp2, spPracType, sp3,sp4; // the spinner
+    private Spinner sp1,sp2, spPracAid, sp3,sp4; // the spinner
     //private String mSpPractType_val = "", mSp1_val = "", mSp2_val = "", mSp3_val = "", mSp4_val = ""; // the values from the spinner
     private String[] spin_val = {"", "", "", "", ""  }; // Array of values
-    private EditText mCommentEditText;
+    private EditText mPracTypeEditText, mCommentEditText;
     
     private boolean mRecordChanged = false; // When edit change made ot record row
     
@@ -102,7 +98,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         // Find all input views to read from
         sp1 = (Spinner) findViewById(R.id.sp_1);
         sp2 = (Spinner) findViewById(R.id.sp_2);
-        spPracType = (Spinner) findViewById(R.id.sp_pracType);
+        mPracTypeEditText = (EditText) findViewById(R.id.prac_type);
+        spPracAid = (Spinner) findViewById(R.id.sp_prac_aid);
         sp3 = (Spinner) findViewById(R.id.sp_3);
         sp4 = (Spinner) findViewById(R.id.sp_4);
         mCommentEditText = (EditText) findViewById(R.id.comment);
@@ -112,7 +109,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         tvTime.setOnTouchListener(mTouchListener);
         sp1.setOnTouchListener(mTouchListener);
         sp2.setOnTouchListener(mTouchListener);
-        spPracType.setOnTouchListener(mTouchListener);
+        mPracTypeEditText.setOnTouchListener(mTouchListener);
+        spPracAid.setOnTouchListener(mTouchListener);
         sp3.setOnTouchListener(mTouchListener);
         sp4.setOnTouchListener(mTouchListener);
         mCommentEditText.setOnTouchListener(mTouchListener);
@@ -120,7 +118,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         // Loads the spinners with strings from an array
         sp1 = getSpinnerVal(R.id.sp_1, RATINGS, 0);
         sp2 = getSpinnerVal(R.id.sp_2, RATINGS, 1);
-        spPracType = getSpinnerVal(R.id.sp_pracType, PRAC_TYPE, 2);
+        spPracAid = getSpinnerVal(R.id.sp_prac_aid, PRAC_AID, 2);
         sp3 = getSpinnerVal(R.id.sp_3, RATINGS, 3);
         sp4 = getSpinnerVal(R.id.sp_4, RATINGS, 4);
 
@@ -142,6 +140,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 RecordContract.RecordEntry.CSYMP_BEFORE,
                 RecordContract.RecordEntry.CSTRESS_BEFORE,
                 RecordContract.RecordEntry.CPRAC_TYPE,
+                RecordContract.RecordEntry.CPRAC_AID,
                 RecordContract.RecordEntry.CSTRESS_AFTER,
                 RecordContract.RecordEntry.CSYMP_AFTER,
                 RecordContract.RecordEntry.CCOMMENTS};
@@ -161,7 +160,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int timeColIndex=c.getColumnIndex(RecordContract.RecordEntry.CTIME);
             int symp_beforeColIndex=c.getColumnIndex(RecordContract.RecordEntry.CSYMP_BEFORE);
             int stress_beforeColIndex=c.getColumnIndex(RecordContract.RecordEntry.CSTRESS_BEFORE);
-            int pract_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
+            int prac_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
+            int pract_aidColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_AID);
             int symp_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSYMP_AFTER);
             int stress_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSTRESS_AFTER);
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
@@ -171,7 +171,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             String time=c.getString(timeColIndex);
             int symp_before = c.getInt(symp_beforeColIndex);
             int stress_before = c.getInt(stress_beforeColIndex);
-            int prac_type = c.getInt(pract_typeColIndex);
+            int prac_type = c.getInt(prac_typeColIndex);
+            int prac_aid = c.getInt(pract_aidColIndex);
             int symp_after = c.getInt(symp_afterColIndex);
             int stress_after = c.getInt(stress_afterColIndex);
             int comment = c.getInt(commentColIndex);
@@ -182,7 +183,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             // Get the position of the rating from the spinner
             sp1.setSelection(symp_before);
             sp2.setSelection(stress_before);
-            spPracType.setSelection(prac_type);
+            mPracTypeEditText.setText(prac_type);
+            spPracAid.setSelection(prac_aid);
             sp3.setSelection(symp_before);
             sp4.setSelection(stress_after);
             mCommentEditText.setText(comment);
@@ -197,7 +199,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         tvTime.setText("");
         sp1.setSelection(0);
         sp2.setSelection(0);
-        spPracType.setSelection(0);
+        mPracTypeEditText.setText("");
+        spPracAid.setSelection(0);
         sp3.setSelection(0);
         sp4.setSelection(0);
         mCommentEditText.setText("");
@@ -338,7 +341,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         String timeString = tvTime.getText().toString();
         String symptomBeforeRating = spin_val[0];
         String stressBeforeRating = spin_val[1];
-        String pracType = spin_val[2];
+        String pracType = mPracTypeEditText.getText().toString().trim();
+        String pracAid = spin_val[2];
         String symptomAfterRating = spin_val[3];
         String stressAfterRating = spin_val[4];
         String comment = mCommentEditText.getText().toString().trim();
@@ -355,6 +359,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         values.put(RecordContract.RecordEntry.CSYMP_BEFORE, symptomBeforeRating);
         values.put(RecordContract.RecordEntry.CSTRESS_BEFORE, stressBeforeRating);
         values.put(RecordContract.RecordEntry.CPRAC_TYPE, pracType);
+        values.put(RecordContract.RecordEntry.CPRAC_AID, pracAid);
         values.put(RecordContract.RecordEntry.CSYMP_AFTER, symptomAfterRating);
         values.put(RecordContract.RecordEntry.CSTRESS_AFTER, stressAfterRating);
         values.put(RecordContract.RecordEntry.CCOMMENTS, comment);

@@ -1,15 +1,5 @@
 package edu.babarehner.android.dhprs;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import android.widget.CursorAdapter;
-import edu.babarehner.android.dhprs.data.RecordContract;
-
 /**
  * Created by mike on 1/21/18.
  * This is used for what will be shown in ListView of all the records

@@ -103,9 +103,40 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
         <!-- Label -->
         <TextView
             android:text="Practice Type"
+            style="@style/CategoryStyle"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/prac_type"
+                android:hint="Practice Type"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/container_prac_aid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Practice Aid"
             style="@style/CategoryStyle" />
 
         <LinearLayout
@@ -115,7 +146,7 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/sp_pracType"
+                android:id="@+id/sp_prac_aid"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:spinnerMode="dropdown"/>
