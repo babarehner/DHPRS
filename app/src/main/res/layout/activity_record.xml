@@ -54,7 +54,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Practice Type"
+            android:text="Practice Type:"
             style="@style/CategoryStyle"/>
 
         <EditText
@@ -74,14 +74,16 @@
 
         <!-- Label -->
         <TextView
-            android:text="Practice Aid"
-            style="@style/CategoryStyle" />
+            style="@style/CategoryStyle"
+            android:text="Practice Aid:" />
 
         <Spinner
             android:id="@+id/sp_prac_aid"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:spinnerMode="dropdown"/>
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:spinnerMode="dropdown"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -155,29 +157,16 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Practice Length: "
             style="@style/CategoryStyle"/>
 
         <EditText
             android:id="@+id/prac_len"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="minutes"
             android:inputType="number"/>
     </LinearLayout>
-    
-
-     <!-- Label -->
-    <TextView
-        android:text="Comment:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/editColorText"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceSmall"
-        style="@style/CategoryStyle"/>
 
 
     <EditText

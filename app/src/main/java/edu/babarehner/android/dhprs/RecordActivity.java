@@ -44,7 +44,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording"};
+    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording, Thermistor"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;

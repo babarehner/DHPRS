@@ -1,14 +1,24 @@
 package edu.babarehner.android.dhprs;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.TextView;
+
+import edu.babarehner.android.dhprs.data.RecordContract;
+
 /**
  * Created by mike on 1/21/18.
  * This is used for what will be shown in ListView of all the records
  */
 
-/*
+
 public class RecordCursorAdapter extends CursorAdapter {
 
-    public RecordCursorAdapter(Context context, Cursor c)  {super(context, c /* flags*///);}
+    public RecordCursorAdapter(Context context, Cursor c)  {super(context, c /* flags*/);}
 
     /**
      * creates a new blank list item with no data
@@ -16,8 +26,7 @@ public class RecordCursorAdapter extends CursorAdapter {
      * @param c         cursor
      * @param parent    parent to which view is attached to
      * @return          the newly created list item view
-
-
+     */
 
     @Override
     public View newView(Context context, Cursor c, ViewGroup parent) {
@@ -25,26 +34,31 @@ public class RecordCursorAdapter extends CursorAdapter {
     }
 
     /**
-     * Binds data to the empty lsit item
+     * Binds data to the empty list item
      * @param v
      * @param context
      * @param c
+     */
 
     @Override
     public void bindView(View v, Context context, Cursor c) {
         // find the id of the views to modify
-        TextView titleTextView = (TextView) v.findViewById(R.id.title);
-        TextView publishYearTextView = (TextView) v.findViewById(R.id.publish_year);
+        TextView dateTextView = (TextView) v.findViewById(R.id.list_item_date);
+        TextView prac_typeTextView = (TextView) v.findViewById(R.id.list_item_prac_type);
+        TextView prac_lenTextView = (TextView) v.findViewById(R.id.list_item_prac_len);
 
-        int titleColIndex = c.getColumnIndex(RecordContract.RecordEntry.COL_TITLE);
-        int publishYearColIndex = c.getColumnIndex(RecordContract.RecordEntry.COL_YEAR_PUBLISHED);
 
-        String title = c.getString(titleColIndex);
-        String publish_year = c.getString(publishYearColIndex);
+        int dateColIndex = c.getColumnIndex(RecordContract.RecordEntry.CDATE);
+        int prac_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
+        int prac_lenColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_LEN);
 
-        titleTextView.setText(title);
-        publishYearTextView.setText(publish_year);
+        String date = c.getString(dateColIndex);
+        String prac_type = c.getString(prac_typeColIndex);
+        String prac_len = c.getString(prac_typeColIndex);
+
+        dateTextView.setText(date);
+        prac_typeTextView.setText(prac_type);
+        prac_lenTextView.setText(prac_len);
     }
 
 }
-*/
