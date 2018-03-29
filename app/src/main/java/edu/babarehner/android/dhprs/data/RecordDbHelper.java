@@ -40,6 +40,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
                 + RecordContract.RecordEntry.CPRAC_AID + " TEXT, "
                 + RecordContract.RecordEntry.CSYMP_AFTER + " INTEGER, "
                 + RecordContract.RecordEntry.CSTRESS_AFTER + " INTEGER,"
+                + RecordContract.RecordEntry.CPRAC_LEN + " INTEGER, "
                 + RecordContract.RecordEntry.CCOMMENTS + " TEXT);";
 
         db.execSQL(SQL_CREATE_DHPRS_TABLE);

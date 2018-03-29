@@ -60,6 +60,7 @@ public final class RecordContract {
         public static final String CPRAC_AID = "CPracAid";
         public static final String CSYMP_AFTER = "CSympAfter";
         public static final String CSTRESS_AFTER = "CStressAfter";
+        public static final String CPRAC_LEN = "CPracLen";
         public static final String CCOMMENTS = "CComments";
 
         // name of db table to hold blood pressure readings

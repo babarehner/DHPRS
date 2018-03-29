@@ -60,7 +60,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     private Spinner sp1,sp2, spPracAid, sp3,sp4; // the spinner
     //private String mSpPractType_val = "", mSp1_val = "", mSp2_val = "", mSp3_val = "", mSp4_val = ""; // the values from the spinner
     private String[] spin_val = {"", "", "", "", ""  }; // Array of values
-    private EditText mPracTypeEditText, mCommentEditText;
+    private EditText mPracTypeEditText, mCommentEditText, mPracLen;
     
     private boolean mRecordChanged = false; // When edit change made ot record row
     
@@ -102,6 +102,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         spPracAid = (Spinner) findViewById(R.id.sp_prac_aid);
         sp3 = (Spinner) findViewById(R.id.sp_3);
         sp4 = (Spinner) findViewById(R.id.sp_4);
+        mPracLen = (EditText) findViewById(R.id.prac_len);
         mCommentEditText = (EditText) findViewById(R.id.comment);
         
         // Set up Touch listener on all the input fields to see if user touched a field
@@ -113,6 +114,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         spPracAid.setOnTouchListener(mTouchListener);
         sp3.setOnTouchListener(mTouchListener);
         sp4.setOnTouchListener(mTouchListener);
+        mPracLen.setOnTouchListener(mTouchListener);
         mCommentEditText.setOnTouchListener(mTouchListener);
         
         // Loads the spinners with strings from an array
@@ -143,6 +145,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 RecordContract.RecordEntry.CPRAC_AID,
                 RecordContract.RecordEntry.CSTRESS_AFTER,
                 RecordContract.RecordEntry.CSYMP_AFTER,
+                RecordContract.RecordEntry.CPRAC_LEN,
                 RecordContract.RecordEntry.CCOMMENTS};
 
         // Start a new thread
@@ -163,6 +166,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int prac_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
             int pract_aidColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_AID);
             int symp_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSYMP_AFTER);
+            int prac_lenColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_LEN);
             int stress_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSTRESS_AFTER);
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
 
@@ -175,7 +179,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int prac_aid = c.getInt(pract_aidColIndex);
             int symp_after = c.getInt(symp_afterColIndex);
             int stress_after = c.getInt(stress_afterColIndex);
-            int comment = c.getInt(commentColIndex);
+            int prac_len = c.getInt(prac_lenColIndex);
+            String comment = c.getString(commentColIndex);
 
             //Update the text views
             tvDate.setText(date);
@@ -187,6 +192,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             spPracAid.setSelection(prac_aid);
             sp3.setSelection(symp_before);
             sp4.setSelection(stress_after);
+            mPracLen.setText(prac_len);
             mCommentEditText.setText(comment);
         }
 
@@ -203,6 +209,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         spPracAid.setSelection(0);
         sp3.setSelection(0);
         sp4.setSelection(0);
+        mPracLen.setText("");
         mCommentEditText.setText("");
     }
     
