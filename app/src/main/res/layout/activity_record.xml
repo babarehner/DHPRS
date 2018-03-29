@@ -15,12 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""/>
-
         <Button
             android:id="@+id/pick_date"
             android:layout_width="wrap_content"
@@ -30,7 +24,7 @@
             android:text="Date" />
 
         <TextView
-            android:id="@+id/tvTime"
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""/>
@@ -42,6 +36,52 @@
             android:layout_alignParentTop="false"
             android:layout_centerHorizontal="true"
             android:text="Time" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_prac_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <!-- Label -->
+        <TextView
+            android:text="Practice Type"
+            style="@style/CategoryStyle"/>
+
+        <EditText
+            android:id="@+id/prac_type"
+            android:hint="Practice Type"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_prac_aid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Practice Aid"
+            style="@style/CategoryStyle" />
+
+        <Spinner
+            android:id="@+id/sp_prac_aid"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"/>
 
     </LinearLayout>
 
@@ -57,18 +97,25 @@
             android:text="Symptom Before"
             style="@style/CategoryStyle" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/sp_1"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
+        <Spinner
+            android:id="@+id/sp_1"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"
+            android:visibility="visible" />
+
+
+        <TextView
+            android:text="Symptom After"
+            style="@style/CategoryStyle" />
+
+        <Spinner
+            android:id="@+id/sp_3"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -82,135 +129,50 @@
             android:text="Stress Before"
             style="@style/CategoryStyle" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sp_2"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-    </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/container_prac_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/sp_2"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"/>
 
-
-        <!-- Label -->
-        <TextView
-            android:text="Practice Type"
-            style="@style/CategoryStyle"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/prac_type"
-                android:hint="Practice Type"
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/container_prac_aid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:text="Practice Aid"
-            style="@style/CategoryStyle" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sp_prac_aid"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/container_spinner3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:text="Symptom After"
-            style="@style/CategoryStyle" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sp_3"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:id="@+id/container_spinner_rating4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
         <TextView
             android:text="Stress After"
             style="@style/CategoryStyle" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
+        <Spinner
+            android:id="@+id/sp_4"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"/>
 
-            <Spinner
-                android:id="@+id/sp_4"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Length Practice: "
+            style="@style/CategoryStyle"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="minutes"
+            android:inputType="number"/>
     </LinearLayout>
 
 
-    <!-- Label -->
+
+     <!-- Label -->
     <TextView
         android:text="Comment:"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/editColorText"
         android:fontFamily="sans-serif-medium"
@@ -225,7 +187,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minLines="2"/>
-
 
 
 </LinearLayout>

@@ -27,6 +27,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.RecordProvider"
+            android:authorities="com.babarehner.android.dhprs"
+            android:exported="false" />
+
     </application>
 
 </manifest>
