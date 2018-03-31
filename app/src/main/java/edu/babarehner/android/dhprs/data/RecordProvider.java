@@ -10,6 +10,7 @@ import android.graphics.SweepGradient;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import static edu.babarehner.android.dhprs.data.RecordContract.CONTENT_AUTHORITY;
 import static edu.babarehner.android.dhprs.data.RecordContract.PATH_TRECORDS;
@@ -73,18 +74,6 @@ public class RecordProvider extends ContentProvider {
         return c;
     }
 
-    @Nullable
-    @Override
-    public String getType(@NonNull Uri uri) {
-        final int match = sUriMatcher.match(uri);
-        switch (match) {
-            case RECORDS:
-                return RecordContract.RecordEntry.CONTENT_LIST_TYPE;
-            case RECORD_ID:
-                return RecordContract.RecordEntry.CONTENT_ITEM_TYPE;
-            default: throw new IllegalStateException("Unknown Uri: " + uri + "with match: " + match);
-        }
-    }
 
     @Nullable
     @Override
@@ -101,21 +90,97 @@ public class RecordProvider extends ContentProvider {
     // Insert a record into the records table with the given content values. Return the new content uri
     // for that specific row in the database
     public Uri insertRecord(Uri uri, ContentValues values) {
-        //TODO
-        return uri;
+        // Check the the practice type is not null
+        String prac_type = values.getAsString(RecordContract.RecordEntry.CPRAC_TYPE);
+        if (prac_type == null){
+            throw new IllegalArgumentException("Practice Tyep required to insert new Record");
+        }
+
+        String recDate = values.getAsString(RecordContract.RecordEntry.CDATE);
+        String recTime = values.getAsString(RecordContract.RecordEntry.CTIME);
+        String recSympBefore = values.getAsString(RecordContract.RecordEntry.CSYMP_BEFORE);
+        String recStressBefore = values.getAsString(RecordContract.RecordEntry.CSTRESS_BEFORE);
+        String recPracType = values.getAsString(RecordContract.RecordEntry.CPRAC_TYPE);
+        String recPracAid = values.getAsString(RecordContract.RecordEntry.CPRAC_AID);
+        String recSympAfter = values.getAsString(RecordContract.RecordEntry.CSYMP_AFTER);
+        String recSressAfter = values.getAsString(RecordContract.RecordEntry.CSTRESS_AFTER);
+        String recPracLen = values.getAsString(RecordContract.RecordEntry.CPRAC_LEN);
+        String recComment = values.getAsString(RecordContract.RecordEntry.CCOMMENTS);
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        long id = db.insert(RecordContract.RecordEntry.TRECORDS, null, values);
+        Log.v(LOG_TAG, "Record not entered");
+        if (id == -1){
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        // notify all listeners that the data has changed for the TRECORDS table
+        getContext().getContentResolver().notifyChange(uri, null);
+        // return the new Uri with the ID of the newly inserted row appended to the db
+        return ContentUris.withAppendedId(uri, id);
     }
 
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        final int match = sUriMatcher.match(uri);
+        switch (match){
+            case RECORDS:
+                return updateRecords(uri, values, selection, selectionArgs);
+            case RECORD_ID:
+                selection = RecordContract.RecordEntry._IDR + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return updateRecords(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for: " + uri);
+        }
+    }
+
+
+    private int updateRecords(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+        // if there are no values quit
+        if (values.size() == 0) {return 0;}
+
+        // check that the practice type is not empty
+        if (values.containsKey(RecordContract.RecordEntry.CPRAC_TYPE)) {
+            String prac_name = values.getAsString(RecordContract.RecordEntry.CPRAC_TYPE);
+            // check again
+            if (prac_name == null) {
+                throw new IllegalArgumentException("Exercise requires a practice type- in updateRecords");
+            }
+        }
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int rows_updated = db.update(RecordContract.RecordEntry.TRECORDS, values, selection, selectionArgs);
+        if (rows_updated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rows_updated;
+
+    }
 
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        int rowsDeleted;
         return 0;
     }
 
+
+    @Nullable
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    public String getType(@NonNull Uri uri) {
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case RECORDS:
+                return RecordContract.RecordEntry.CONTENT_LIST_TYPE;
+            case RECORD_ID:
+                return RecordContract.RecordEntry.CONTENT_ITEM_TYPE;
+            default: throw new IllegalStateException("Unknown Uri: " + uri + "with match: " + match);
+        }
     }
+
 
 /*
 

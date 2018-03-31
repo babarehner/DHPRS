@@ -42,9 +42,11 @@ import edu.babarehner.android.dhprs.data.RecordContract;
 //TODO save the data to the database
 public class RecordActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private final String LOG_TAG = RecordActivity.class.getSimpleName();
+
     // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording, Thermistor"};
+    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording", "Thermistor"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
@@ -166,8 +168,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int prac_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
             int pract_aidColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_AID);
             int symp_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSYMP_AFTER);
-            int prac_lenColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_LEN);
             int stress_afterColIndex = c.getColumnIndex(RecordContract.RecordEntry.CSTRESS_AFTER);
+            int prac_lenColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_LEN);
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
 
             // use the index to pull the data out
@@ -352,6 +354,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         String pracAid = spin_val[2];
         String symptomAfterRating = spin_val[3];
         String stressAfterRating = spin_val[4];
+        String pracLen = mPracLen.getText().toString().trim();
         String comment = mCommentEditText.getText().toString().trim();
 
         // if the date field is left blank do nothing
@@ -369,16 +372,16 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         values.put(RecordContract.RecordEntry.CPRAC_AID, pracAid);
         values.put(RecordContract.RecordEntry.CSYMP_AFTER, symptomAfterRating);
         values.put(RecordContract.RecordEntry.CSTRESS_AFTER, stressAfterRating);
+        values.put(RecordContract.RecordEntry.CPRAC_LEN, pracLen);
         values.put(RecordContract.RecordEntry.CCOMMENTS, comment);
+
+
 
         if (mCurrentRecordUri == null) {
             // a new record
+            Log.v(LOG_TAG, "in saveRecord " + RecordContract.RecordEntry.CONTENT_URI.toString() + "\n" + values);
             Uri newUri = getContentResolver().insert(RecordContract.RecordEntry.CONTENT_URI, values);
-        }
 
-        if (mCurrentRecordUri == null) {
-            // a new book
-            Uri newUri = getContentResolver().insert(RecordContract.RecordEntry.CONTENT_URI, values);
             if (newUri == null) {
                 Toast.makeText(this, getString(R.string.record_provider_insert_record_failed),
                         Toast.LENGTH_SHORT).show();
