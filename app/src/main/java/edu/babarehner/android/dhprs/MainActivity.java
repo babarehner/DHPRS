@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = {RecordContract.RecordEntry._IDR,
                 RecordContract.RecordEntry.CDATE,
                 RecordContract.RecordEntry.CPRAC_TYPE,
-                RecordContract.RecordEntry.CPRAC_TYPE};
+                RecordContract.RecordEntry.CPRAC_LEN};
 
         return new CursorLoader(this,
                 RecordContract.RecordEntry.CONTENT_URI,

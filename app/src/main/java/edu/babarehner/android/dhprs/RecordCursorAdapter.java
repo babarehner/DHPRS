@@ -35,9 +35,9 @@ public class RecordCursorAdapter extends CursorAdapter {
 
     /**
      * Binds data to the empty list item
-     * @param v
-     * @param context
-     * @param c
+     * @param v View
+     * @param context Context
+     * @param c Cursor
      */
 
     @Override
@@ -54,11 +54,12 @@ public class RecordCursorAdapter extends CursorAdapter {
 
         String date = c.getString(dateColIndex);
         String prac_type = c.getString(prac_typeColIndex);
-        String prac_len = c.getString(prac_typeColIndex);
+        String prac_len = c.getString(prac_lenColIndex);
 
         dateTextView.setText(date);
         prac_typeTextView.setText(prac_type);
-        prac_lenTextView.setText(prac_len);
+        // Adding text to Integer for display purposes only!!!!
+        prac_lenTextView.setText(prac_len + " minutes");
     }
 
 }

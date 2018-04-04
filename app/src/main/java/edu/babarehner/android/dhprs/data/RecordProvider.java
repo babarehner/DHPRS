@@ -177,38 +177,9 @@ public class RecordProvider extends ContentProvider {
                 return RecordContract.RecordEntry.CONTENT_LIST_TYPE;
             case RECORD_ID:
                 return RecordContract.RecordEntry.CONTENT_ITEM_TYPE;
-            default: throw new IllegalStateException("Unknown Uri: " + uri + "with match: " + match);
+            default:
+                throw new IllegalStateException("Unknown Uri: " + uri + "with match: " + match);
         }
     }
-
-
-/*
-
-    @Override
-    public boolean onCreate(){
-        mDbHelper = new RecordDbHelper(getContext());
-        return true;
-    }
-
-
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        int a[] = {0,1};
-        Cursor c = a;
-        return c;
-    }
-
-
-
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        //TODO
-
-        return 0;
-    }
-
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        //TODO
-        return 0;
-    }
-    */
 }
 

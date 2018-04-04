@@ -177,7 +177,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             String time=c.getString(timeColIndex);
             int symp_before = c.getInt(symp_beforeColIndex);
             int stress_before = c.getInt(stress_beforeColIndex);
-            int prac_type = c.getInt(prac_typeColIndex);
+            String prac_type = c.getString(prac_typeColIndex);
             int prac_aid = c.getInt(pract_aidColIndex);
             int symp_after = c.getInt(symp_afterColIndex);
             int stress_after = c.getInt(stress_afterColIndex);
@@ -192,9 +192,9 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             sp2.setSelection(stress_before);
             mPracTypeEditText.setText(prac_type);
             spPracAid.setSelection(prac_aid);
-            sp3.setSelection(symp_before);
+            sp3.setSelection(symp_after);
             sp4.setSelection(stress_after);
-            mPracLen.setText(prac_len);
+            mPracLen.setText(Integer.toString(prac_len));
             mCommentEditText.setText(comment);
         }
 
