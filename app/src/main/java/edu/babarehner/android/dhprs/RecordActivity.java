@@ -46,7 +46,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static final CharSequence[] PRAC_AID = {"Paper", "Phone App", "Recording", "Thermistor"};
+    public static final CharSequence[] PRAC_AID = {"None","Paper", "Phone App", "Recording", "Thermistor"};
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
@@ -59,7 +59,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     static final int TIME_DIALOG_ID = 1;
     static final int EXISTING_RECORD_LOADER = 2;
 
-    private Spinner sp1,sp2, spPracAid, sp3,sp4; // the spinner
+    private Spinner sp1,sp2, spPracAid, sp3,sp4; // the spinners
     //private String mSpPractType_val = "", mSp1_val = "", mSp2_val = "", mSp3_val = "", mSp4_val = ""; // the values from the spinner
     private String[] spin_val = {"", "", "", "", ""  }; // Array of values
     private EditText mPracTypeEditText, mCommentEditText, mPracLen;
@@ -178,7 +178,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int symp_before = c.getInt(symp_beforeColIndex);
             int stress_before = c.getInt(stress_beforeColIndex);
             String prac_type = c.getString(prac_typeColIndex);
-            int prac_aid = c.getInt(pract_aidColIndex);
+            String prac_aid = c.getString(pract_aidColIndex);
             int symp_after = c.getInt(symp_afterColIndex);
             int stress_after = c.getInt(stress_afterColIndex);
             int prac_len = c.getInt(prac_lenColIndex);
@@ -191,7 +191,10 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             sp1.setSelection(symp_before);
             sp2.setSelection(stress_before);
             mPracTypeEditText.setText(prac_type);
-            spPracAid.setSelection(prac_aid);
+            //  create Array Adapter to pull spinner position out from given DB string value
+            ArrayAdapter pracAidAdap = (ArrayAdapter) spPracAid.getAdapter(); //cast to an ArrayAdapter
+            int pos = pracAidAdap.getPosition(prac_aid);
+            spPracAid.setSelection(pos);
             sp3.setSelection(symp_after);
             sp4.setSelection(stress_after);
             mPracLen.setText(Integer.toString(prac_len));
@@ -500,8 +503,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         // show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
     }
-
-
 
 
 
