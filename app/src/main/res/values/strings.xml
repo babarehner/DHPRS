@@ -24,9 +24,24 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="unsaved_changes_dialog_msg">Discard changes and quit editing</string>
-    <string name="discard">Discard</string>
+    <string name="discard">Discard edit</string>
     <string name="keep_editing">Keep editing</string>
     <string name="delete_record_failure">Record not deleted (Error)</string>
     <string name="delete_record_successful">Record deleted</string>
+
+    <!-- activity_record.xml strings -->
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="practice_type">Practice Type:</string>
+    <string name="practice_type_hint">Enter with keyboard</string>
+    <string name="practice_aid">Practice Aid:</string>
+    <string name="symptom_before">Symptom Before:</string>
+    <string name="symptom_after">Symptom After:</string>
+    <string name="stress_before">Stress Before:</string>
+    <string name="stress_after">Stress After:</string>
+    <string name="practice_length">Practice Length:</string>
+    <string name="enter_comment_here">Enter comment here</string>
+    <string name="minutes">minutes</string>
+
 
 </resources>

@@ -425,7 +425,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 finish();       // exit activity
                 return true;
             case R.id.action_delete:
-                // Alert Dialog for deleting one book
+                // Alert Dialog for deleting one record
                 showDeleteConfirmationDialog();
                 return true;
             // this is the <- button on the header
@@ -514,7 +514,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // User clicked delet so delete
+                // User clicked delete so delete
                 deleteRecord();
             }
         });

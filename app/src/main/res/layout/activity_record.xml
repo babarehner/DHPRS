@@ -19,9 +19,7 @@
             android:id="@+id/pick_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_centerHorizontal="true"
-            android:text="Date" />
+            android:text="@string/date" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -33,7 +31,7 @@
             android:id="@+id/pick_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time" />
+            android:text="@string/time" />
 
         <TextView
             android:id="@+id/tvTime"
@@ -52,14 +50,14 @@
 
         <!-- Label -->
         <TextView
-            android:text="Practice Type:"
+            android:text="@string/practice_type"
             style="@style/CategoryStyle"/>
 
         <EditText
             android:id="@+id/prac_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Practice Type"
+            android:hint="@string/practice_type_hint"
             android:inputType="text|textCapWords" />
 
     </LinearLayout>
@@ -73,7 +71,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Practice Aid:" />
+            android:text="@string/practice_aid" />
 
         <Spinner
             android:id="@+id/sp_prac_aid"
@@ -94,7 +92,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Symptom Before"
+            android:text="@string/symptom_before"
             style="@style/CategoryStyle" />
 
 
@@ -102,12 +100,13 @@
             android:id="@+id/sp_1"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
+            android:persistentDrawingCache="none"
             android:spinnerMode="dropdown"
             android:visibility="visible" />
 
 
         <TextView
-            android:text="Symptom After"
+            android:text="@string/symptom_after"
             style="@style/CategoryStyle" />
 
         <Spinner
@@ -126,7 +125,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Stress Before"
+            android:text="@string/stress_before"
             style="@style/CategoryStyle" />
 
 
@@ -138,7 +137,7 @@
             android:spinnerMode="dropdown"/>
 
         <TextView
-            android:text="Stress After"
+            android:text="@string/stress_after"
             style="@style/CategoryStyle" />
 
         <Spinner
@@ -156,14 +155,14 @@
 
         <TextView
             style="@style/CategoryStyle"
-            android:text="Practice Length: "
+            android:text="@string/practice_length"
             tools:password="false" />
 
         <EditText
             android:id="@+id/prac_len"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="minutes"
+            android:hint="@string/minutes"
             android:inputType="number" />
     </LinearLayout>
 
@@ -172,7 +171,7 @@
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter comment here"
+        android:hint="@string/enter_comment_here"
         android:inputType="textCapSentences|textMultiLine"
         android:minLines="2" />
 

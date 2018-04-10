@@ -164,7 +164,18 @@ public class RecordProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         int rowsDeleted;
-        return 0;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        // final int match = sUriMatcher.match(uri);
+        selection = RecordContract.RecordEntry._IDR + "=?";
+        selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+        rowsDeleted = db.delete(RecordContract.RecordEntry.TRECORDS, selection, selectionArgs);
+
+        if (rowsDeleted != 0) {
+            // Notify all listeners that the db has changed
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
 
