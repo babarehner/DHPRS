@@ -10,8 +10,8 @@
         android:id="@+id/list_item_date"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/list_item_height"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        tools:text="12/12/18"/>
+        android:paddingLeft="8dp"
+        tools:text="12/12/18" />
 
     <TextView
         android:id="@+id/list_item_prac_type"
@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/list_item_height"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:gravity="right"
         tools:text="23"/>
 
 </LinearLayout>

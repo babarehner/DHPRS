@@ -126,9 +126,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         sp3 = getSpinnerVal(R.id.sp_3, RATINGS, 3);
         sp4 = getSpinnerVal(R.id.sp_4, RATINGS, 4);
 
-        // setUpSpinners();
-        
-        //TODO these need to get moved into methods
         getDate();
         getTime();
     }
@@ -137,7 +134,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     // overide this abstract method
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // define a projection that contains all columns in TBooks
+        // define a projection that contains all columns in TRecords
         String[] projection = {RecordContract.RecordEntry._IDR,
                 RecordContract.RecordEntry.CDATE,
                 RecordContract.RecordEntry.CTIME,
@@ -155,7 +152,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // override this abstarct method
+    // override this abstract method
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
         // move to the only row in the Cursor
@@ -322,7 +319,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // need to clean this up and change/verifiy how/where I get data out after I can easily verify data
+    // set up the spinners passing the a resource ID, an array of values, i not used currently
     private Spinner getSpinnerVal(int resourceID, final CharSequence[] a, final int i) {
         Log.v("RecordActivity", Integer.toString(resourceID));
         Spinner s = (Spinner)  findViewById(resourceID);
@@ -393,7 +390,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            // existing book so update with content URI and pass in ContentValues
+            // existing record so update with content URI and pass in ContentValues
             int rowsAffected = getContentResolver().update(mCurrentRecordUri, values, null, null);
             if (rowsAffected == 0) {
                 // TODO Check db- Text Not Null does not seem to be working or entering
@@ -430,7 +427,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             // this is the <- button on the header
             case android.R.id.home:
-                // book has not changed
+                // record has not changed
                 if (!mRecordChanged) {
                     NavUtils.navigateUpFromSameTask(RecordActivity.this);
                     return true;
@@ -452,7 +449,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // delete book from db
+    // delete record from db
     private void deleteRecord(){
         if (mCurrentRecordUri != null) {
             int rowsDeleted = getContentResolver().delete(mCurrentRecordUri, null, null);
@@ -468,11 +465,11 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // hide delete menu item when adding a new book
+    // hide delete menu item when adding a new record
     @Override
     public boolean onPrepareOptionsMenu(Menu m) {
         super.onPrepareOptionsMenu(m);
-        // if this is add a book, hide "delete" menu item
+        // if this is add a record, hide "delete" menu item
         if (mCurrentRecordUri == null) {
             MenuItem menuItem = m.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -481,7 +478,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // Override the activity's normal back button. If book has changed create a
+    // Override the activity's normal back button. If record has changed create a
     // discard click listener that closed current activity.
     @Override
     public void onBackPressed() {

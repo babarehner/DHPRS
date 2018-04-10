@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/practice_type_hint"
-            android:inputType="text|textCapWords" />
+            android:inputType="text|textCapWords|textMultiLine" />
 
     </LinearLayout>
 

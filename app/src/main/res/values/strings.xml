@@ -8,7 +8,7 @@
 
     <!-- Title text for RecordActivity page -->
     <string name="record_activity_title_add_record">Add Record</string>
-    <string name="record_activity_title_edit_record">Edit Reord</string>
+    <string name="record_activity_title_edit_record">Edit Record</string>
 
 
     <!-- Record Activity messages -->

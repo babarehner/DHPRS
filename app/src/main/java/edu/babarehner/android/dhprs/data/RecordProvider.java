@@ -93,7 +93,7 @@ public class RecordProvider extends ContentProvider {
         // Check the the practice type is not null
         String prac_type = values.getAsString(RecordContract.RecordEntry.CPRAC_TYPE);
         if (prac_type == null){
-            throw new IllegalArgumentException("Practice Tyep required to insert new Record");
+            throw new IllegalArgumentException("Practice Type required to insert new Record");
         }
 
         String recDate = values.getAsString(RecordContract.RecordEntry.CDATE);
