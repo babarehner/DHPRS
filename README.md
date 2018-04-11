@@ -3,7 +3,7 @@ This app is developed to allow a person to enter their daily records into an and
 It uses a SQLite database to store all information. No provision is currently given to track or remove any data off the phone. 
 There are two screens. One is a List View which has a date, Practice Type and length of each daily practice. 
 There is also an Edit View which allows the user to save or edit a daily record. 
-Buttons are used for easy date and time entry. Spinners are used to for several entries to save the user from having to use the keyboard. 
+Buttons are used for easy date and time entry. Spinners are used for several entries to save the user from having to use the keyboard. 
 A Comments section allows the user the enter multiline comments.
 
 In the past I've been advised to have a disclaimer for my projects.  It sounds real scary, though I endeavor to make all my projects behave nicely and would never knowingly ship junkware.
