@@ -1,8 +1,13 @@
 All business logic, text and design background information that
 are located in the program files may not be extracted and are 
-copyright Carolyn Fisher and may not be reproduced in any form 
+Copyright 2018 Carolyn Fisher and may not be reproduced in any form
 including graphical, word processor or code or by any other 
-means 
+means.
+
+======================================================================
+
+Software Copyright 2018 Apache 2 License Mike Rehner subject to
+license restrictions listed above.
 
 ======================================================================
 All image and audio files (including *.png, *.jpg, *.svg, *.mp3, *.wav
@@ -10,8 +15,6 @@ and *.ogg) are licensed under the CC-BY-NC license.
 
 =====================================================================
 
-All code files are
-licensed under the Apache 2 license.
 
 =======================================================================
 
