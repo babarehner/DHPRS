@@ -96,7 +96,7 @@ public class RecordProvider extends ContentProvider {
             throw new IllegalArgumentException("Practice Type required to insert new Record");
         }
 
-        String recDate = values.getAsString(RecordContract.RecordEntry.CDATE);
+        //String recDate = values.getAsString(RecordContract.RecordEntry.CDATE);
         String recTime = values.getAsString(RecordContract.RecordEntry.CTIME);
         String recSympBefore = values.getAsString(RecordContract.RecordEntry.CSYMP_BEFORE);
         String recStressBefore = values.getAsString(RecordContract.RecordEntry.CSTRESS_BEFORE);

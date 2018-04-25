@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.babarehner.android.dhprs.data.RecordContract;
 
 /**
@@ -52,7 +55,12 @@ public class RecordCursorAdapter extends CursorAdapter {
         int prac_typeColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_TYPE);
         int prac_lenColIndex = c.getColumnIndex(RecordContract.RecordEntry.CPRAC_LEN);
 
-        String date = c.getString(dateColIndex);
+        // get long datetime from db and convert it to string
+        long d = c.getLong(dateColIndex);
+        Date dateTime = new Date(d);
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+        String date = f.format(dateTime);
+
         String prac_type = c.getString(prac_typeColIndex);
         String prac_len = c.getString(prac_lenColIndex);
 

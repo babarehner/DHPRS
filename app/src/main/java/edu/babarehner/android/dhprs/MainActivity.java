@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 projection,
                 null,
                 null,
-                null);
+                RecordContract.RecordEntry.CDATE + " DESC");
     }
 
     @Override
