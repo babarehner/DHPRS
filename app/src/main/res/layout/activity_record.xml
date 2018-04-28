@@ -50,6 +50,7 @@
 
         <!-- Label -->
         <TextView
+            android:id="@+id/tv_prac_type"
             android:text="@string/practice_type"
             style="@style/CategoryStyle"/>
 
@@ -70,6 +71,7 @@
 
         <!-- Label -->
         <TextView
+            android:id="@+id/tv_prac_aid"
             style="@style/CategoryStyle"
             android:text="@string/practice_aid" />
 
@@ -92,6 +94,7 @@
 
         <!-- Label -->
         <TextView
+            android:id="@+id/tv_symptom_before"
             android:text="@string/symptom_before"
             style="@style/CategoryStyle" />
 
@@ -106,6 +109,7 @@
 
 
         <TextView
+            android:id="@+id/tv_symptom_after"
             android:text="@string/symptom_after"
             style="@style/CategoryStyle" />
 
@@ -125,6 +129,7 @@
 
         <!-- Label -->
         <TextView
+            android:id="@+id/tv_stress_before"
             android:text="@string/stress_before"
             style="@style/CategoryStyle" />
 
@@ -137,6 +142,7 @@
             android:spinnerMode="dropdown"/>
 
         <TextView
+            android:id="@+id/tv_stress_after"
             android:text="@string/stress_after"
             style="@style/CategoryStyle" />
 
@@ -154,6 +160,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_prac_len"
             style="@style/CategoryStyle"
             android:text="@string/practice_length"
             tools:password="false" />
