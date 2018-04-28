@@ -72,7 +72,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     private String[] spin_val = {"", "", "", "", ""  }; // Array of values
     private EditText mPracTypeEditText, mCommentEditText, mPracLen;
     
-    private boolean mRecordChanged = false; // When edit change made ot record row
+    private boolean mRecordChanged = false; // When edit change made to record row
     
     // Touch listener to check if changes made to a record
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -530,8 +530,10 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         super.onPrepareOptionsMenu(m);
         // if this is add a record, hide "delete" menu item
         if (mCurrentRecordUri == null) {
-            MenuItem menuItem = m.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
+            MenuItem deleteItem = m.findItem(R.id.action_delete);
+            deleteItem.setVisible(false);
+            MenuItem shareItem = m.findItem(R.id.action_share);
+            shareItem.setVisible(false);
         }
         return true;
     }
