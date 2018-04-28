@@ -13,8 +13,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -30,6 +32,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -52,19 +56,23 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     private Uri mCurrentRecordUri;
     private TextView tvDate;
     private TextView tvTime;
-    private Button pickDate, pickTime, butEnter ;
+    private Button pickDate, pickTime ;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
     static final int EXISTING_RECORD_LOADER = 2;
 
+    // hold values or database items so they can be shared
+    private String mDateDB, mTimeDB, mPracTypeDB, mPracAidDB, mCommentDB;
+    private int mSympBeforeDB, mSympAfterDB, mStressBeforeDB, mStressAfterDB, mPracLenDB;
+
     private Spinner sp1,sp2, spPracAid, sp3,sp4; // the spinners
     //private String mSpPractType_val = "", mSp1_val = "", mSp2_val = "", mSp3_val = "", mSp4_val = ""; // the values from the spinner
     private String[] spin_val = {"", "", "", "", ""  }; // Array of values
     private EditText mPracTypeEditText, mCommentEditText, mPracLen;
     
-    private boolean mRecordChanged = false; // When edit change made ot record row
+    private boolean mRecordChanged = false; // When edit change made to record row
     
     // Touch listener to check if changes made to a record
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -74,6 +82,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             return false;
         }
     };
+
+    private ShareActionProvider mShareActionProvider;
 
     
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,32 +180,32 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
 
             // use the index to pull the data out
-            String date=c.getString(dateColIndex);
-            String time=c.getString(timeColIndex);
-            int symp_before = c.getInt(symp_beforeColIndex);
-            int stress_before = c.getInt(stress_beforeColIndex);
-            String prac_type = c.getString(prac_typeColIndex);
-            String prac_aid = c.getString(pract_aidColIndex);
-            int symp_after = c.getInt(symp_afterColIndex);
-            int stress_after = c.getInt(stress_afterColIndex);
-            int prac_len = c.getInt(prac_lenColIndex);
-            String comment = c.getString(commentColIndex);
+            mDateDB =c.getString(dateColIndex);
+            mTimeDB =c.getString(timeColIndex);
+            mSympBeforeDB = c.getInt(symp_beforeColIndex);
+            mStressBeforeDB = c.getInt(stress_beforeColIndex);
+            mPracTypeDB = c.getString(prac_typeColIndex);
+            mPracAidDB = c.getString(pract_aidColIndex);
+            mSympAfterDB = c.getInt(symp_afterColIndex);
+            mStressAfterDB = c.getInt(stress_afterColIndex);
+            mPracLenDB= c.getInt(prac_lenColIndex);
+            mCommentDB = c.getString(commentColIndex);
 
             //Update the text views
-            tvDate.setText(date);
-            tvTime.setText(time);
+            tvDate.setText(mDateDB);
+            tvTime.setText(mTimeDB);
             // Get the position of the rating from the spinner
-            sp1.setSelection(symp_before);
-            sp2.setSelection(stress_before);
-            mPracTypeEditText.setText(prac_type);
+            sp1.setSelection(mSympBeforeDB);
+            sp2.setSelection(mStressAfterDB);
+            mPracTypeEditText.setText(mPracTypeDB);
             //  create Array Adapter to pull spinner position out from given DB string value
             ArrayAdapter pracAidAdap = (ArrayAdapter) spPracAid.getAdapter(); //cast to an ArrayAdapter
-            int pos = pracAidAdap.getPosition(prac_aid);
+            int pos = pracAidAdap.getPosition(mPracAidDB);
             spPracAid.setSelection(pos);
-            sp3.setSelection(symp_after);
-            sp4.setSelection(stress_after);
-            mPracLen.setText(Integer.toString(prac_len));
-            mCommentEditText.setText(comment);
+            sp3.setSelection(mSympAfterDB);
+            sp4.setSelection(mStressAfterDB);
+            mPracLen.setText(Integer.toString(mPracLenDB));
+            mCommentEditText.setText(mCommentDB);
         }
 
     }
@@ -410,24 +420,36 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
 
+        //MenuItem item = menu.findItem(R.id.action_share);
+        // Bug in 27.1.0 --- Use AppCompat-v7.27:1.1 or 27.0.2
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(
+                menu.findItem(R.id.action_share));
+        // Unable to call doShare from onOptionsItemSelected ??????
+        mShareActionProvider.setShareIntent(doShare());
+
         return true;
     }
 
     // Select from the options menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        Log.v(LOG_TAG, "Share Action Provider Menu Item  is not fucked up");
+        int menuItem = item.getItemId();
+        switch (menuItem) {
             case R.id.action_save:
                 saveRecord();
                 finish();       // exit activity
+                return true;
+            case R.id.action_share:
+                // does not drop down into action_share- called in onCreateOptionsMenu???
+                Log.v(LOG_TAG, "In case R.id.action_share XXXXXXXXX");
+                doShare();
                 return true;
             case R.id.action_delete:
                 // Alert Dialog for deleting one record
                 showDeleteConfirmationDialog();
                 return true;
-            //case R.id.action_share:
-            //   return true;
-            // this is the <- button on the header
+            // this is the <- button on the toolbar
             case android.R.id.home:
                 // record has not changed
                 if (!mRecordChanged) {
@@ -448,6 +470,41 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Intent doShare(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+
+        // get all the headings to push to share
+        TextView tvPracType = (TextView) findViewById(R.id.tv_prac_type);
+        TextView tvPracAid = (TextView) findViewById(R.id.tv_prac_aid);
+        TextView tvSympBefore = (TextView) findViewById(R.id.tv_symptom_before);
+        TextView tvSympAfter = (TextView) findViewById(R.id.tv_symptom_after);
+        TextView tvStressBefore = (TextView) findViewById(R.id.tv_stress_before);
+        TextView tvStressAfter = (TextView) findViewById(R.id.tv_stress_after);
+        TextView tvPracLen = (TextView) findViewById(R.id.tv_prac_len);
+        String comment = "Comment";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(pickDate.getText()).append(": ").append(mDateDB).append("\n")
+                .append(pickTime.getText().toString()).append(": ").append(mTimeDB).append("\n")
+                .append(tvPracType.getText().toString()).append(mPracTypeDB).append("\n")
+                .append(tvPracAid.getText().toString()).append(mPracAidDB).append("\n")
+                .append(tvSympBefore.getText().toString()).append(mSympBeforeDB).append("\n")
+                .append(tvSympAfter.getText().toString()).append(mSympAfterDB).append("\n")
+                .append(tvStressBefore.getText().toString()).append(mStressBeforeDB).append("\n")
+                .append(tvStressAfter.getText().toString()).append(mSympAfterDB).append("\n")
+                .append(tvPracLen.getText().toString()).append(mPracLenDB).append(" minutes\n")
+                .append(comment).append(mCommentDB);
+
+        if (mShareActionProvider != null){
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Sharing now \n\n" + sb);
+        } else {
+            Log.d(LOG_TAG, "Share Action Provider is null");
+        }
+        Log.v(LOG_TAG, "Share Action Provider is fucked up");
+        return shareIntent;
     }
 
 
@@ -473,8 +530,10 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         super.onPrepareOptionsMenu(m);
         // if this is add a record, hide "delete" menu item
         if (mCurrentRecordUri == null) {
-            MenuItem menuItem = m.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
+            MenuItem deleteItem = m.findItem(R.id.action_delete);
+            deleteItem.setVisible(false);
+            MenuItem shareItem = m.findItem(R.id.action_share);
+            shareItem.setVisible(false);
         }
         return true;
     }
