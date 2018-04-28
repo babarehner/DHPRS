@@ -13,8 +13,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -74,6 +76,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             return false;
         }
     };
+
+    private ShareActionProvider mShareActionProvider;
 
     
     protected void onCreate(Bundle savedInstanceState) {
@@ -410,22 +414,36 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
 
+        //MenuItem item = menu.findItem(R.id.action_share);
+        // Bug in 27.1.0 --- Use AppCompat-v7.27:1.1 or 27.0.2
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(
+                menu.findItem(R.id.action_share));
+        // Unable to call doShare from onOptionsItemSelected ??????
+        mShareActionProvider.setShareIntent(doShare());
+
         return true;
     }
 
     // Select from the options menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        Log.v(LOG_TAG, "Share Action Provider Menu Item  is not fucked up");
+        int menuItem = item.getItemId();
+        switch (menuItem) {
             case R.id.action_save:
                 saveRecord();
                 finish();       // exit activity
+                return true;
+            case R.id.action_share:
+                // does not drop down into action_share- called in onCreateOptionsMenu???
+                Log.v(LOG_TAG, "case R.id.action_share");
+                doShare();
                 return true;
             case R.id.action_delete:
                 // Alert Dialog for deleting one record
                 showDeleteConfirmationDialog();
                 return true;
-            // this is the <- button on the header
+            // this is the <- button on the toolbar
             case android.R.id.home:
                 // record has not changed
                 if (!mRecordChanged) {
@@ -446,6 +464,18 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Intent doShare(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        if (mShareActionProvider != null){
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Sharing now");
+        } else {
+            Log.d(LOG_TAG, "Share Action Provider is null");
+        }
+        Log.v(LOG_TAG, "Share Action Provider is fucked up");
+        return shareIntent;
     }
 
 
