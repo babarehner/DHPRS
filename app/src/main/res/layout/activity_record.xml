@@ -133,8 +133,6 @@
             android:text="@string/stress_before"
             style="@style/CategoryStyle" />
 
-
-
         <Spinner
             android:id="@+id/sp_2"
             android:layout_width="wrap_content"

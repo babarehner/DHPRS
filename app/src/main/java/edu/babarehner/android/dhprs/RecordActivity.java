@@ -196,7 +196,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             tvTime.setText(mTimeDB);
             // Get the position of the rating from the spinner
             sp1.setSelection(mSympBeforeDB);
-            sp2.setSelection(mStressAfterDB);
+            sp2.setSelection(mStressBeforeDB);
             mPracTypeEditText.setText(mPracTypeDB);
             //  create Array Adapter to pull spinner position out from given DB string value
             ArrayAdapter pracAidAdap = (ArrayAdapter) spPracAid.getAdapter(); //cast to an ArrayAdapter
@@ -483,18 +483,18 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         TextView tvStressBefore = (TextView) findViewById(R.id.tv_stress_before);
         TextView tvStressAfter = (TextView) findViewById(R.id.tv_stress_after);
         TextView tvPracLen = (TextView) findViewById(R.id.tv_prac_len);
-        String comment = "Comment";
+        String comment = "Comment: ";
 
         StringBuilder sb = new StringBuilder();
         sb.append(pickDate.getText()).append(": ").append(mDateDB).append("\n")
                 .append(pickTime.getText().toString()).append(": ").append(mTimeDB).append("\n")
                 .append(tvPracType.getText().toString()).append(mPracTypeDB).append("\n")
                 .append(tvPracAid.getText().toString()).append(mPracAidDB).append("\n")
-                .append(tvSympBefore.getText().toString()).append(mSympBeforeDB).append("\n")
-                .append(tvSympAfter.getText().toString()).append(mSympAfterDB).append("\n")
-                .append(tvStressBefore.getText().toString()).append(mStressBeforeDB).append("\n")
-                .append(tvStressAfter.getText().toString()).append(mSympAfterDB).append("\n")
-                .append(tvPracLen.getText().toString()).append(mPracLenDB).append(" minutes\n")
+                .append(tvSympBefore.getText().toString()).append(Integer.toString(mSympBeforeDB)).append("\n")
+                .append(tvSympAfter.getText().toString()).append(Integer.toString(mSympAfterDB)).append("\n")
+                .append(tvStressBefore.getText().toString()).append(Integer.toString(mStressBeforeDB)).append("\n")
+                .append(tvStressAfter.getText().toString()).append(Integer.toString(mStressAfterDB)).append("\n")
+                .append(tvPracLen.getText().toString()).append(Integer.toString(mPracLenDB)).append(" minutes\n")
                 .append(comment).append(mCommentDB);
 
         if (mShareActionProvider != null){
