@@ -35,7 +35,11 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import edu.babarehner.android.dhprs.data.RecordContract;
 
@@ -180,7 +184,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
 
             // use the index to pull the data out
-            mDateDB =c.getString(dateColIndex);
+            Long longDate = c.getLong(dateColIndex);
+            mDateDB = formatDate(longDate);
             mTimeDB =c.getString(timeColIndex);
             mSympBeforeDB = c.getInt(symp_beforeColIndex);
             mStressBeforeDB = c.getInt(stress_beforeColIndex);
@@ -356,7 +361,18 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     private void saveRecord() {
         // read from input fields
-        String dateString = tvDate.getText().toString();
+        String strDate = tvDate.getText().toString();
+
+        // convert string date to Linux date
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+        long ms = 0;
+        try{
+            Date d = f.parse(strDate);
+            ms = d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         String timeString = tvTime.getText().toString();
         String symptomBeforeRating = spin_val[0];
         String stressBeforeRating = spin_val[1];
@@ -368,13 +384,13 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         String comment = mCommentEditText.getText().toString().trim();
 
         // if the date field is left blank do nothing
-        if (mCurrentRecordUri == null & TextUtils.isEmpty(dateString)) {
+        if (mCurrentRecordUri == null & TextUtils.isEmpty(strDate)) {
             Toast.makeText(this, getString(R.string.missing_date), Toast.LENGTH_SHORT).show();
             return;
         }
 
         ContentValues values = new ContentValues();
-        values.put(RecordContract.RecordEntry.CDATE, dateString);
+        values.put(RecordContract.RecordEntry.CDATE, ms);
         values.put(RecordContract.RecordEntry.CTIME, timeString);
         values.put(RecordContract.RecordEntry.CSYMP_BEFORE, symptomBeforeRating);
         values.put(RecordContract.RecordEntry.CSTRESS_BEFORE, stressBeforeRating);
@@ -605,6 +621,11 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    static String formatDate(long dateInMillis) {
+        Date date = new Date(dateInMillis);
+        return DateFormat.getDateInstance().format(date);
     }
 
 
