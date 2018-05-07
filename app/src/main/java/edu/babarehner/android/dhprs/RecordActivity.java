@@ -58,8 +58,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
-    private TextView tvDate;
-    private TextView tvTime;
+    private EditText etDate;
+    private EditText etTime;
     private Button pickDate, pickTime ;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -94,10 +94,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
-        // initialization required or it crashes- why doesn't it work when I initialize it above????
-        tvDate = (TextView) findViewById(R.id.tvDate);
-        tvTime = (TextView) findViewById(R.id.tvTime);
-
         // get intent and get data from intent
         Intent intent = getIntent();
         mCurrentRecordUri = intent.getData();
@@ -110,7 +106,11 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(getString(R.string.record_activity_title_edit_record));
             getLoaderManager().initLoader(EXISTING_RECORD_LOADER, null, RecordActivity.this);
         }
-          
+
+
+        // initialization required or it crashes- why doesn't it work when I initialize it above????
+        etDate = (EditText) findViewById(R.id.etDate);
+        etTime = (EditText) findViewById(R.id.etTime);
         // Find all input views to read from
         sp1 = (Spinner) findViewById(R.id.sp_1);
         sp2 = (Spinner) findViewById(R.id.sp_2);
@@ -122,8 +122,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         mCommentEditText = (EditText) findViewById(R.id.comment);
         
         // Set up Touch listener on all the input fields to see if user touched a field
-        tvDate.setOnTouchListener(mTouchListener);
-        tvTime.setOnTouchListener(mTouchListener);
+        //etDate.setOnTouchListener(mTouchListener);
+        //etTime.setOnTouchListener(mTouchListener);
         sp1.setOnTouchListener(mTouchListener);
         sp2.setOnTouchListener(mTouchListener);
         mPracTypeEditText.setOnTouchListener(mTouchListener);
@@ -197,8 +197,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             mCommentDB = c.getString(commentColIndex);
 
             //Update the text views
-            tvDate.setText(mDateDB);
-            tvTime.setText(mTimeDB);
+            etDate.setText(mDateDB);
+            etTime.setText(mTimeDB);
             // Get the position of the rating from the spinner
             sp1.setSelection(mSympBeforeDB);
             sp2.setSelection(mStressBeforeDB);
@@ -218,8 +218,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // If invalid Loader clear data from input field
-        tvDate.setText("");
-        tvTime.setText("");
+        etDate.setText("");
+        etTime.setText("");
         sp1.setSelection(0);
         sp2.setSelection(0);
         mPracTypeEditText.setText("");
@@ -234,13 +234,17 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     // get up date picker
     public void getDate() {
 
-        tvDate = findViewById(R.id.tvDate);
+        etDate = findViewById(R.id.etDate);
         pickDate = findViewById(R.id.pick_date);
 
         // add a click listener to the button
         pickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if on edit view and date button is clicked change boolean in touch listener
+                if (mCurrentRecordUri != null) {
+                    mRecordChanged = true;
+                }
                 showDialog(DATE_DIALOG_ID);
             }
         });
@@ -254,9 +258,9 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
 
 
-    //updates the date displayed in TextView
+    //updates the date displayed in EditText
     private void updateDate() {
-         tvDate.setText(
+         etDate.setText(
          new StringBuilder()
                  .append((mMonth + 1)).append("/")
                  .append(mDay).append("/")
@@ -278,12 +282,16 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     public void getTime() {
         // get View elements
-        tvTime = (TextView) findViewById(R.id.tvTime);
+        etTime = (EditText) findViewById(R.id.etTime);
         pickTime = (Button) findViewById(R.id.pick_time);
         // add a click listener to the button
         pickTime.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if on edit view and date button is clicked change boolean in touch listener
+                if (mCurrentRecordUri != null) {
+                    mRecordChanged = true;
+                }
                 showDialog(TIME_DIALOG_ID);
             }
         }));
@@ -296,7 +304,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private void updateTime() {
-        tvTime.setText(new StringBuilder().append(pad(mHour)).append(":").append(pad(mMinute)));
+        etTime.setText(new StringBuilder().append(pad(mHour)).append(":").append(pad(mMinute)));
     }
 
     // the callback received when the user sets the time in the dialog
@@ -361,7 +369,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     private void saveRecord() {
         // read from input fields
-        String strDate = tvDate.getText().toString();
+        String strDate = etDate.getText().toString();
 
         // convert string date to Linux date
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
@@ -373,7 +381,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             e.printStackTrace();
         }
 
-        String timeString = tvTime.getText().toString();
+        String timeString = etTime.getText().toString();
         String symptomBeforeRating = spin_val[0];
         String stressBeforeRating = spin_val[1];
         String pracType = mPracTypeEditText.getText().toString().trim();
