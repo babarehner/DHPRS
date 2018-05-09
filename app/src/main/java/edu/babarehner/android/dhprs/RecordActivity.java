@@ -77,7 +77,9 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mPracTypeEditText, mCommentEditText, mPracLen;
     
     private boolean mRecordChanged = false; // When edit change made to record row
-    
+
+    private long mMS = 0; // Linux time in milliseconds
+
     // Touch listener to check if changes made to a record
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -122,8 +124,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         mCommentEditText = (EditText) findViewById(R.id.comment);
         
         // Set up Touch listener on all the input fields to see if user touched a field
-        //etDate.setOnTouchListener(mTouchListener);
-        //etTime.setOnTouchListener(mTouchListener);
+        etDate.setOnTouchListener(mTouchListener);
+        etDate.setOnTouchListener(mTouchListener);
         sp1.setOnTouchListener(mTouchListener);
         sp2.setOnTouchListener(mTouchListener);
         mPracTypeEditText.setOnTouchListener(mTouchListener);
@@ -184,8 +186,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             int commentColIndex = c.getColumnIndex(RecordContract.RecordEntry.CCOMMENTS);
 
             // use the index to pull the data out
-            Long longDate = c.getLong(dateColIndex);
-            mDateDB = formatDate(longDate);
+            mMS = c.getLong(dateColIndex);
+            mDateDB = formatDate(mMS); // hold on to mMS in case other fields are edited!!!
             mTimeDB =c.getString(timeColIndex);
             mSympBeforeDB = c.getInt(symp_beforeColIndex);
             mStressBeforeDB = c.getInt(stress_beforeColIndex);
@@ -373,13 +375,14 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
         // convert string date to Linux date
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
-        long ms = 0;
-        try{
+        // long ms = 0
+        try {
             Date d = f.parse(strDate);
-            ms = d.getTime();
+            mMS = d.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
 
         String timeString = etTime.getText().toString();
         String symptomBeforeRating = spin_val[0];
@@ -398,7 +401,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         ContentValues values = new ContentValues();
-        values.put(RecordContract.RecordEntry.CDATE, ms);
+        values.put(RecordContract.RecordEntry.CDATE, mMS);
         values.put(RecordContract.RecordEntry.CTIME, timeString);
         values.put(RecordContract.RecordEntry.CSYMP_BEFORE, symptomBeforeRating);
         values.put(RecordContract.RecordEntry.CSTRESS_BEFORE, stressBeforeRating);
