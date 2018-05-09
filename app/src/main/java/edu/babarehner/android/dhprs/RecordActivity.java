@@ -515,13 +515,13 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         StringBuilder sb = new StringBuilder();
         sb.append(pickDate.getText()).append(": ").append(mDateDB).append("\n")
                 .append(pickTime.getText().toString()).append(": ").append(mTimeDB).append("\n")
-                .append(tvPracType.getText().toString()).append(mPracTypeDB).append("\n")
-                .append(tvPracAid.getText().toString()).append(mPracAidDB).append("\n")
-                .append(tvSympBefore.getText().toString()).append(Integer.toString(mSympBeforeDB)).append("\n")
-                .append(tvSympAfter.getText().toString()).append(Integer.toString(mSympAfterDB)).append("\n")
-                .append(tvStressBefore.getText().toString()).append(Integer.toString(mStressBeforeDB)).append("\n")
-                .append(tvStressAfter.getText().toString()).append(Integer.toString(mStressAfterDB)).append("\n")
-                .append(tvPracLen.getText().toString()).append(Integer.toString(mPracLenDB)).append(" minutes\n")
+                .append(tvPracType.getText().toString()).append(" ").append(mPracTypeDB).append("\n")
+                .append(tvPracAid.getText().toString()).append(" ").append(mPracAidDB).append("\n")
+                .append(tvSympBefore.getText().toString()).append(" ").append(Integer.toString(mSympBeforeDB)).append("\n")
+                .append(tvSympAfter.getText().toString()).append(" ").append(Integer.toString(mSympAfterDB)).append("\n")
+                .append(tvStressBefore.getText().toString()).append(" ").append(Integer.toString(mStressBeforeDB)).append("\n")
+                .append(tvStressAfter.getText().toString()).append(" ").append(Integer.toString(mStressAfterDB)).append("\n")
+                .append(tvPracLen.getText().toString()).append(" ").append(Integer.toString(mPracLenDB)).append(" minutes\n")
                 .append(comment).append(mCommentDB);
 
         if (mShareActionProvider != null){

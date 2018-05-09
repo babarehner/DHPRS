@@ -25,7 +25,8 @@
             android:id="@+id/etDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:enabled="false"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/pick_time"
@@ -38,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            style="@style/CategoryStyle"/>
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
