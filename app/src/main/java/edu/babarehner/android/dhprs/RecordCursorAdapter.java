@@ -61,12 +61,15 @@ public class RecordCursorAdapter extends CursorAdapter {
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
         String date = f.format(dateTime);
         String prac_type = c.getString(prac_typeColIndex);
-        String prac_len = c.getString(prac_lenColIndex);
+        String practice_length = c.getString(prac_lenColIndex);
+        // format string Resource with minutes added
+        String prac_len = context.getString(R.string.prac_len, practice_length);
 
         dateTextView.setText(date);
         prac_typeTextView.setText(prac_type);
         // Adding text to Integer for display purposes only!!!!
-        prac_lenTextView.setText(prac_len + " minutes");
+
+        prac_lenTextView.setText(prac_len);
     }
 
 }
