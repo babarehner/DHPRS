@@ -44,6 +44,7 @@
     <string name="minutes">minutes</string>
     <string name="share">Share</string>
     <string name="action_share">Share</string>
+g
     <!-- format by adding minutes to practice length -->
     <string name="prac_len">%1$s minutes</string>
 
