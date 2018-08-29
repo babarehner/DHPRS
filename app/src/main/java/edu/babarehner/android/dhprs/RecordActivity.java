@@ -305,8 +305,28 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
+    /**
+     * Provides an update time in 12 hour format which is stored in the DB
+     * when Save is clicked.
+     * Might want to consider allowing a user preference for 24 hour or 12 hour format here
+     * Best way would be to change how time is stored in the DB?
+     */
     private void updateTime() {
-        etTime.setText(new StringBuilder().append(pad(mHour)).append(":").append(pad(mMinute)));
+
+        String timeSet = "";
+        if (mHour > 12) {
+            mHour -= 12;
+            timeSet = "PM";
+        } else if (mHour == 0) {
+            mHour += 12;
+            timeSet = "AM";
+        } else if (mHour == 12)
+            timeSet = "PM";
+        else
+            timeSet = "AM";
+
+        etTime.setText(new StringBuilder().append(pad(mHour)).append(":").append(pad(mMinute))
+                .append(" ").append(timeSet));
     }
 
     // the callback received when the user sets the time in the dialog
