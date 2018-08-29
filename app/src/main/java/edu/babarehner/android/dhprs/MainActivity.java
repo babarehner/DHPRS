@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {RecordContract.RecordEntry._IDR,
                 RecordContract.RecordEntry.CDATE,
+                RecordContract.RecordEntry.CTIME,
                 RecordContract.RecordEntry.CPRAC_TYPE,
                 RecordContract.RecordEntry.CPRAC_LEN};
 

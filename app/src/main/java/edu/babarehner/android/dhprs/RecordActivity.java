@@ -370,15 +370,15 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
 
     private void saveRecord() {
-        // read from input fields
-        String strDate = etDate.getText().toString();
+        // read from input fields. Add date & time to get correct sort order for date + time
+        String strDateTime = etDate.getText().toString() + " " + etTime.getText().toString();
 
         // convert string date to Linux date
-        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         // long ms = 0
         try {
-            Date d = f.parse(strDate);
-            mMS = d.getTime();
+            Date d = f.parse(strDateTime);
+            mMS = d.getTime(); // date-time in ms since 1/1/1970
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -395,7 +395,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         String comment = mCommentEditText.getText().toString().trim();
 
         // if the date field is left blank do nothing
-        if (mCurrentRecordUri == null & TextUtils.isEmpty(strDate)) {
+        if (mCurrentRecordUri == null & TextUtils.isEmpty(strDateTime)) {
             Toast.makeText(this, getString(R.string.missing_date), Toast.LENGTH_SHORT).show();
             return;
         }
