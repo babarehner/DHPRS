@@ -1,188 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Created by Mike Rehner 1/18/18. Page for entering Practice Records -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".RecordActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:padding="16dp"
+        tools:context=".RecordActivity">
 
-        <Button
-            android:id="@+id/pick_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date" />
-
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/pick_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time" />
-
-        <EditText
-            android:id="@+id/etTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:textColor="@color/black"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/container_prac_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <!-- Label -->
-        <TextView
-            android:id="@+id/tv_prac_type"
-            android:text="@string/practice_type"
-            style="@style/CategoryStyle"/>
-
-        <EditText
-            android:id="@+id/prac_type"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/practice_type_hint"
-            android:inputType="text|textCapWords|textMultiLine" />
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/pick_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date" />
 
-    <LinearLayout
-        android:id="@+id/container_prac_aid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black" />
 
-        <!-- Label -->
-        <TextView
-            android:id="@+id/tv_prac_aid"
-            style="@style/CategoryStyle"
-            android:text="@string/practice_aid" />
+            <Button
+                android:id="@+id/pick_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time" />
 
-        <Spinner
-            android:id="@+id/sp_prac_aid"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:spinnerMode="dropdown"
-            android:visibility="visible" />
+            <EditText
+                android:id="@+id/etTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/container_spinner_rating1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:id="@+id/tv_symptom_before"
-            android:text="@string/symptom_before"
-            style="@style/CategoryStyle" />
-
-
-        <Spinner
-            android:id="@+id/sp_1"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:persistentDrawingCache="none"
-            android:spinnerMode="dropdown"
-            android:visibility="visible" />
-
-
-        <TextView
-            android:id="@+id/tv_symptom_after"
-            android:text="@string/symptom_after"
-            style="@style/CategoryStyle" />
-
-        <Spinner
-            android:id="@+id/sp_3"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:spinnerMode="dropdown"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/container_spinner_rating2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:id="@+id/tv_stress_before"
-            android:text="@string/stress_before"
-            style="@style/CategoryStyle" />
-
-        <Spinner
-            android:id="@+id/sp_2"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:spinnerMode="dropdown"/>
-
-        <TextView
-            android:id="@+id/tv_stress_after"
-            android:text="@string/stress_after"
-            style="@style/CategoryStyle" />
-
-        <Spinner
-            android:id="@+id/sp_4"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:spinnerMode="dropdown"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_prac_len"
-            style="@style/CategoryStyle"
-            android:text="@string/practice_length"
-            tools:password="false" />
-
-        <EditText
-            android:id="@+id/prac_len"
+        <LinearLayout
+            android:id="@+id/container_prac_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/minutes"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+
+            <!-- Label -->
+            <TextView
+                android:id="@+id/tv_prac_type"
+                android:text="@string/practice_type"
+                style="@style/CategoryStyle"/>
+
+            <EditText
+                android:id="@+id/prac_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/practice_type_hint"
+                android:inputType="text|textCapWords|textMultiLine" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_prac_aid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:id="@+id/tv_prac_aid"
+                style="@style/CategoryStyle"
+                android:text="@string/practice_aid" />
+
+            <Spinner
+                android:id="@+id/sp_prac_aid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:spinnerMode="dropdown"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/container_spinner_rating1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:id="@+id/tv_symptom_before"
+                android:text="@string/symptom_before"
+                style="@style/CategoryStyle" />
+
+
+            <Spinner
+                android:id="@+id/sp_1"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:persistentDrawingCache="none"
+                android:spinnerMode="dropdown"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/tv_symptom_after"
+                android:text="@string/symptom_after"
+                style="@style/CategoryStyle" />
+
+            <Spinner
+                android:id="@+id/sp_3"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:spinnerMode="dropdown"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_spinner_rating2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:id="@+id/tv_stress_before"
+                android:text="@string/stress_before"
+                style="@style/CategoryStyle" />
+
+            <Spinner
+                android:id="@+id/sp_2"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:spinnerMode="dropdown"/>
+
+            <TextView
+                android:id="@+id/tv_stress_after"
+                android:text="@string/stress_after"
+                style="@style/CategoryStyle" />
+
+            <Spinner
+                android:id="@+id/sp_4"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:spinnerMode="dropdown"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_prac_len"
+                style="@style/CategoryStyle"
+                android:text="@string/practice_length"
+                tools:password="false" />
+
+            <EditText
+                android:id="@+id/prac_len"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/minutes"
+                android:inputType="number" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_comment_here"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="2" />
     </LinearLayout>
 
-
-    <EditText
-        android:id="@+id/comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_comment_here"
-        android:inputType="textCapSentences|textMultiLine"
-        android:minLines="2" />
-
-
-</LinearLayout>
+</ScrollView>
 
 
