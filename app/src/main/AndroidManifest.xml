@@ -31,6 +31,17 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".PracticeAidActivity"
+            android:parentActivityName=".RecordActivity"
+            android:theme="@style/AppTheme">
+
+            <!-- Parent activity metaadata to support Android 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecordActivity" />
+        </activity>
+
         <provider
             android:name=".data.RecordProvider"
             android:authorities="com.babarehner.android.dhprs"

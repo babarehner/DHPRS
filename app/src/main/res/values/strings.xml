@@ -48,6 +48,10 @@ g
     <!-- format by adding minutes to practice length -->
     <string name="prac_len">%1$s minutes</string>
 
+    <!--activity_practice_aid.xml -->
+    <string name="empty_view_practice_aid_text">If there are no Practice Aids listed
+    please add some by clicking on the Floating Action Button (Plus Sign) below.</string>
+
 
 
 </resources>
