@@ -68,6 +68,11 @@ public final class RecordContract {
         // Column names in TBP
         public static final String _IDB = BaseColumns._ID;
 
+        // name of db table to hold practice aid types for spinner lookup
+        public static final String TPRAC_AIDS = "TPracAids";
+        public static final String _IDPA = BaseColumns._ID;
+        public static final String CPRAC_AIDS = "CPracAids";
+
     }
 
 

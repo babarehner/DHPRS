@@ -17,7 +17,7 @@ import android.widget.ListView;
 
 import edu.babarehner.android.dhprs.data.RecordContract;
 
-public class PracticeAidActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
+public class PracticeAidActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // identifier for loader to run on separate thread
     private static final int PRACTICE_AID_LOADER = 7;
@@ -28,6 +28,7 @@ public class PracticeAidActivity extends AppCompatActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice_aid);
 
+        /*
         // Create a floating action button Need to add
         // compile 'com.android.support:design:26.1.0' to build gradle module
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -57,6 +58,7 @@ public class PracticeAidActivity extends AppCompatActivity implements LoaderMana
 
             }
         });
+        */
 
         getLoaderManager().initLoader(PRACTICE_AID_LOADER, null, this);
     }

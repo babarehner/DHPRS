@@ -476,6 +476,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 // Alert Dialog for deleting one record
                 showDeleteConfirmationDialog();
                 return true;
+            case R.id.action_edit_practice_aids:
+                return true;
             // this is the <- button on the toolbar
             case android.R.id.home:
                 // record has not changed

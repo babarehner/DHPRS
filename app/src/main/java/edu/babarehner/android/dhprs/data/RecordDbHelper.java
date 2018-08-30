@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TPRAC_AIDS;
 import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TRECORDS;
+import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry._IDPA;
 import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry._IDR;
 
 /**
@@ -45,6 +47,22 @@ public class RecordDbHelper extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_DHPRS_TABLE);
 
+        String SQL_CREATE_PRAC_AIDS_TABLE = "CREATE TABLE " + TPRAC_AIDS + "("
+                + _IDPA +  " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + RecordContract.RecordEntry.CPRAC_AIDS + " TEXT);";
+
+        db.execSQL(SQL_CREATE_PRAC_AIDS_TABLE);
+
+
+        // Load the Practice Aids Table with values the first time the db is created
+        String[] practiceAids = { "None", "Paper", "Phone App", "Recording", "Thermistor" };
+        for (String each : practiceAids){
+            db.execSQL("INSERT INTO " + RecordContract.RecordEntry.TPRAC_AIDS
+                    + " ( " + RecordContract.RecordEntry.CPRAC_AIDS + " ) "
+                    + " VALUES( "
+                    +   "'" + each + "'" +  "," + " );");
+        }
+        
     }
 
     // told this was required
