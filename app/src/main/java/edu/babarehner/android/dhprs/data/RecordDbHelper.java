@@ -62,7 +62,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
                     + " VALUES( "
                     +   "'" + each + "'" +  "," + " );");
         }
-        
+
     }
 
     // told this was required
