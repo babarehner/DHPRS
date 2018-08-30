@@ -187,7 +187,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
             // use the index to pull the data out
             mMS = c.getLong(dateColIndex);
-            mDateDB = formatDate(mMS); // hold on to mMS in case other fields are edited!!!
+            mDateDB = Utility.formatDate(mMS); // hold on to mMS in case other fields are edited!!!
             mTimeDB =c.getString(timeColIndex);
             mSympBeforeDB = c.getInt(symp_beforeColIndex);
             mStressBeforeDB = c.getInt(stress_beforeColIndex);
@@ -313,20 +313,11 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
      */
     private void updateTime() {
 
-        String timeSet = "";
-        if (mHour > 12) {
-            mHour -= 12;
-            timeSet = "PM";
-        } else if (mHour == 0) {
-            mHour += 12;
-            timeSet = "AM";
-        } else if (mHour == 12)
-            timeSet = "PM";
-        else
-            timeSet = "AM";
+        String time12hr = "";
+        time12hr = Utility.convert24to12(mHour); // adds an AM or PM to time
 
-        etTime.setText(new StringBuilder().append(pad(mHour)).append(":").append(pad(mMinute))
-                .append(" ").append(timeSet));
+        etTime.setText(new StringBuilder().append(Utility.pad(mHour)).append(":").append(Utility.pad(mMinute))
+                .append(" ").append(time12hr));
     }
 
     // the callback received when the user sets the time in the dialog
@@ -350,17 +341,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 return new TimePickerDialog(this, TimeSetListener, mHour, mMinute, false);
         }
         return null;
-    }
-
-
-    // puts a 0 in front of a single digit time number
-    private static String pad(int c) {
-        if (c >= 10) {
-            return String.valueOf(c);
-        }
-        else {
-            return "0" + String.valueOf(c);
-        }
     }
 
 
@@ -654,10 +634,12 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
+    /**
     static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);
     }
+     */
 
 
 }
