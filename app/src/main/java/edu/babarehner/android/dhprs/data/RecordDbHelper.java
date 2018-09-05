@@ -1,8 +1,13 @@
 package edu.babarehner.android.dhprs.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TPRAC_AIDS;
 import static edu.babarehner.android.dhprs.data.RecordContract.RecordEntry.TRECORDS;
@@ -54,18 +59,37 @@ public class RecordDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PRAC_AIDS_TABLE);
 
 
-        // Load the Practice Aids Table with values the first time the db is created
+        //  Load the Practice Aids Table with values the first time the db is created
         String[] practiceAids = { "None", "Paper", "Phone App", "Recording", "Thermistor" };
+
         for (String each : practiceAids){
             db.execSQL("INSERT INTO " + RecordContract.RecordEntry.TPRAC_AIDS
-                    + " ( " + RecordContract.RecordEntry.CPRAC_AIDS + " ) "
-                    + " VALUES( "
-                    +   "'" + each + "'" +  "," + " );");
+                + " ( " + RecordContract.RecordEntry.CPRAC_AIDS + " ) "
+                + " VALUES( "
+                + "'" + each + "'"  + ");");
         }
 
     }
 
     // told this was required
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+
+
+    // TODO rawQuery not using asynctask or LOADER- should be updated later.
+    public List<String> getPracticeAides(){
+        List<String> practiceAides = new ArrayList<>();
+        String fPracticeAideQuery = "SELECT * FROM " + RecordContract.RecordEntry.TPRAC_AIDS + ";" ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(fPracticeAideQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                practiceAides.add(c.getString(1));
+            } while (c.moveToNext());
+        }
+        // Log.v(LOG_TAG, "practice Aides " + practiceAides);
+        c.close();
+        db.close();
+        return practiceAides;
+    }
 }
 

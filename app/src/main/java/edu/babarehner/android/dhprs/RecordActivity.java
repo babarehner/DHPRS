@@ -40,21 +40,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import edu.babarehner.android.dhprs.data.RecordContract;
+import edu.babarehner.android.dhprs.data.RecordDbHelper;
 
 /**
  * Created by mike on 1/18/18.
  */
 
-//TODO save the data to the database
+
 public class RecordActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String LOG_TAG = RecordActivity.class.getSimpleName();
 
     // rating integers & strings to populate the spinners
     public static final CharSequence[] RATINGS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static final CharSequence[] PRAC_AID = {"None","Paper", "Phone App", "Recording", "Thermistor"};
+    public static CharSequence[] PRAC_AID;
     
     private Uri mCurrentRecordsFileUri = null;
     private Uri mCurrentRecordUri;
@@ -116,12 +118,19 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         // Find all input views to read from
         sp1 = (Spinner) findViewById(R.id.sp_1);
         sp2 = (Spinner) findViewById(R.id.sp_2);
-        mPracTypeEditText = (EditText) findViewById(R.id.prac_type);
         spPracAid = (Spinner) findViewById(R.id.sp_prac_aid);
+        mPracTypeEditText = (EditText) findViewById(R.id.prac_type);
         sp3 = (Spinner) findViewById(R.id.sp_3);
         sp4 = (Spinner) findViewById(R.id.sp_4);
         mPracLen = (EditText) findViewById(R.id.prac_len);
         mCommentEditText = (EditText) findViewById(R.id.comment);
+
+
+        RecordDbHelper db = new RecordDbHelper(getApplicationContext());
+        List<String> pa_list = db.getPracticeAides();
+        // Log.v(LOG_TAG, "palist " + pa_list);
+        PRAC_AID = pa_list.toArray(new CharSequence[pa_list.size()]);
+
         
         // Set up Touch listener on all the input fields to see if user touched a field
         etDate.setOnTouchListener(mTouchListener);
