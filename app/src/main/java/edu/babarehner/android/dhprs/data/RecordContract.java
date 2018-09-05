@@ -1,6 +1,7 @@
 package edu.babarehner.android.dhprs.data;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -27,7 +28,8 @@ public final class RecordContract {
      */
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_TRECORDS = "TRecords";
+    public static final String PATH_TRECORDS = "Records";
+    public static final String PATH_TPRAC_AIDS = "PracticeAids";
     public static final String PATH_TBP = "BP";
 
     /**
@@ -46,6 +48,12 @@ public final class RecordContract {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
                 PATH_TRECORDS);
 
+        public static final String PRACAID_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_TPRAC_AIDS;
+        public static final String PRACAID_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_TPRAC_AIDS;
+        public static final Uri PRACAID_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
+                PATH_TPRAC_AIDS);
 
         // name of db table for Daily Home Practice Recording Sheet
         public final static String TRECORDS = "TRecords";
