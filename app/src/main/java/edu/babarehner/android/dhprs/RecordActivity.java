@@ -1,5 +1,6 @@
 package edu.babarehner.android.dhprs;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
@@ -113,6 +114,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
 
         // initialization required or it crashes- why doesn't it work when I initialize it above????
+        // But the warning review shows these lines are redundant???
         etDate = (EditText) findViewById(R.id.etDate);
         etTime = (EditText) findViewById(R.id.etTime);
         // Find all input views to read from
@@ -486,6 +488,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 showDeleteConfirmationDialog();
                 return true;
             case R.id.action_edit_practice_aids:
+                editPracticeAid();
                 return true;
             // this is the <- button on the toolbar
             case android.R.id.home:
@@ -573,7 +576,16 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             MenuItem shareItem = m.findItem(R.id.action_share);
             shareItem.setVisible(false);
         }
+
+        /* Lets not use this at present- design consideration- it works
+        // hide menu item when showing a previously recorded list item
+        if (mCurrentRecordUri != null){
+            MenuItem practiceAidItem = m.findItem(R.id.action_edit_practice_aids);
+            practiceAidItem.setVisible(false);
+        }
+        */
         return true;
+
     }
 
 
@@ -645,12 +657,12 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
-    /**
-    static String formatDate(long dateInMillis) {
-        Date date = new Date(dateInMillis);
-        return DateFormat.getDateInstance().format(date);
+    // Navigate to Edit Practice Aid screen
+    public void editPracticeAid(){
+        Intent intent = new Intent(RecordActivity.this, PracticeAidActivity.class);
+        startActivity(intent);
     }
-     */
+
 
 
 }

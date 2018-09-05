@@ -39,13 +39,14 @@ public class PracticeAidActivity extends AppCompatActivity implements LoaderMana
                 startActivity(intent);
             }
         });
+        */
 
-        ListView recordsListView = (ListView) findViewById(R.id.practice_aid_list);
+        ListView practiceAidListView = (ListView) findViewById(R.id.practice_aid_list);
         // display the empty view
         View emptyView = findViewById(R.id.practice_aid_empty_view);
-        recordsListView.setEmptyView(emptyView);
-
-        mCursorAdapter = new RecordCursorAdapter(this, null);
+        practiceAidListView.setEmptyView(emptyView);
+        /*
+        mCursorAdapter = new PracticeAidCursorAdapter(this, null);
         recordsListView.setAdapter(mCursorAdapter);
         recordsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class PracticeAidActivity extends AppCompatActivity implements LoaderMana
         });
         */
 
-        getLoaderManager().initLoader(PRACTICE_AID_LOADER, null, this);
+        // getLoaderManager().initLoader(PRACTICE_AID_LOADER, null, this);
     }
 
     @Override
