@@ -27,7 +27,7 @@ public class PracticeAidCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor c, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.practice_aid_list_item, parent, false);
     }
 
     /**
