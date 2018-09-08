@@ -128,6 +128,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         mCommentEditText = (EditText) findViewById(R.id.comment);
 
 
+        // Get Practice Aids from db and put in Array for PracticeAid spinner
         RecordDbHelper db = new RecordDbHelper(getApplicationContext());
         List<String> pa_list = db.getPracticeAides();
         // Log.v(LOG_TAG, "palist " + pa_list);

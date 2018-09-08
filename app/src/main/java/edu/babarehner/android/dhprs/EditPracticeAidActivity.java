@@ -20,6 +20,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,6 +42,15 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
     private boolean mPracticeAidChanged = false;
     private EditText mPracticeAidEditText;
 
+    // Touch listener to check if changes made to a record
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event){
+            mPracticeAidChanged = true;
+            return false;
+        }
+    };
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_practice_aid);
@@ -55,6 +66,8 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
         }
 
         mPracticeAidEditText = (EditText) findViewById(R.id.edit_practice_aid);
+
+        mPracticeAidEditText.setOnTouchListener(mTouchListener);
     }
 
 
@@ -77,8 +90,6 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
             mPracticeAid = c.getString(practiceAidColIndex);
             // update the text view
             mPracticeAidEditText.setText(mPracticeAid);
-
-
         }
 
     }
@@ -138,7 +149,7 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
 
     private void saveRecord() {
 
-        String pracAid =  mPracticeAidEditText.getText().toString().trim();;
+        String pracAid =  mPracticeAidEditText.getText().toString().trim();
 
         ContentValues values = new ContentValues();
         values.put(RecordContract.RecordEntry.CPRAC_AIDS, pracAid);
