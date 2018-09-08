@@ -575,7 +575,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         return true;
-
     }
 
 
