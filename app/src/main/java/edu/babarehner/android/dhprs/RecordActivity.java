@@ -487,9 +487,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 // Alert Dialog for deleting one record
                 showDeleteConfirmationDialog();
                 return true;
-            case R.id.action_edit_practice_aids:
-                editPracticeAid();
-                return true;
             // this is the <- button on the toolbar
             case android.R.id.home:
                 // record has not changed
@@ -577,13 +574,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
             shareItem.setVisible(false);
         }
 
-        /* Lets not use this at present- design consideration- it works
-        // hide menu item when showing a previously recorded list item
-        if (mCurrentRecordUri != null){
-            MenuItem practiceAidItem = m.findItem(R.id.action_edit_practice_aids);
-            practiceAidItem.setVisible(false);
-        }
-        */
         return true;
 
     }
@@ -656,13 +646,6 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-    // Navigate to Edit Practice Aid screen
-    public void editPracticeAid(){
-        Intent intent = new Intent(RecordActivity.this, PracticeAidActivity.class);
-        startActivity(intent);
-    }
-
 
 
 }

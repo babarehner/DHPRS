@@ -53,6 +53,7 @@ g
     please add some by clicking on the Floating Action Button (Plus Sign) below.</string>
     <string name="practice_aid_activity_title_add_record">Add a Practice Aid</string>
     <string name="practice_aid_activity_edit_record">Edit Practice Aid</string>
+    <string name="edit_practice_aids">Edit Practice Aids</string>
 
 
 </resources>
