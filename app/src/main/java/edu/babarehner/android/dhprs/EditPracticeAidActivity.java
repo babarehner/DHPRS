@@ -14,6 +14,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.TextUtils;
@@ -115,13 +116,13 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItem = item.getItemId();
         switch (menuItem) {
-            case R.id.action_save:
+            case R.id.action_save_practice_aid:
                 saveRecord();
                 finish();       // exit activity
                 return true;
-            case R.id.action_delete:
+            case R.id.action_delete_practice_aid:
                 // Alert Dialog for deleting one record
-                // showDeleteConfirmationDialog(); activate this line after dialog wired up
+                showDeleteConfirmationDialog();
                 return true;
             // this is the <- button on the toolbar
             case android.R.id.home:
@@ -140,7 +141,7 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
                             }
                         };
                 // show user they have unsaved changes
-                // showUnsavedChangesDialog(discardButtonClickListener); activate this line after wiring up unsavedChangesDialog
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -150,6 +151,12 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
     private void saveRecord() {
 
         String pracAid =  mPracticeAidEditText.getText().toString().trim();
+
+        // if the date field is left blank do nothing
+        if (mCurrentRecordUri == null & TextUtils.isEmpty(pracAid)) {
+            Toast.makeText(this, getString(R.string.missing_practice_aid), Toast.LENGTH_LONG).show();
+            return;
+        }
 
         ContentValues values = new ContentValues();
         values.put(RecordContract.RecordEntry.CPRAC_AIDS, pracAid);
@@ -209,5 +216,71 @@ public class EditPracticeAidActivity extends AppCompatActivity implements Loader
         }
         finish();
     }
+
+    // Override the activity's normal back button. If record has changed create a
+    // discard click listener that closed current activity.
+    @Override
+    public void onBackPressed() {
+        if (!mPracticeAidChanged) {
+            super.onBackPressed();
+            return;
+        }
+        //otherwise if there are unsaved changes setup a dialog to warn the  user
+        //handles the user confirming that changes should be made
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        // user clicked "Discard" button, close the current activity
+                        finish();
+                    }
+                };
+
+        // show dialog that there are unsaved changes
+        showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        // Create and AlertDialog.Builder, set message and click
+        // listeners for positive and negative buttons
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User clicked delete so delete
+                deleteRecord();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked cancel, dismiss dialog, continue editing
+                if (dialog != null) {dialog.dismiss();}
+            }
+        });
+        // Create and show dialog
+        AlertDialog alertD = builder.create();
+        alertD.show();
+    }
+
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener){
+        // Create AlertDialogue.Builder amd set message and click listeners
+        // for positive and negative buttons in dialogue.
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // user clicked the "keep eiditing" button. Dismiss dialog and keep editing
+                if (dialog !=null) { dialog.dismiss();}
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 }
