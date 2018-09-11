@@ -78,7 +78,8 @@ public class RecordDbHelper extends SQLiteOpenHelper {
     // TODO rawQuery not using asynctask or LOADER- should be updated later.
     public List<String> getPracticeAides(){
         List<String> practiceAides = new ArrayList<>();
-        String fPracticeAideQuery = "SELECT * FROM " + RecordContract.RecordEntry.TPRAC_AIDS + ";" ;
+        String fPracticeAideQuery = "SELECT * FROM " + RecordContract.RecordEntry.TPRAC_AIDS +
+                " ORDER BY " + RecordContract.RecordEntry.CPRAC_AIDS + ";" ;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(fPracticeAideQuery, null);
         if (c.moveToFirst()) {
