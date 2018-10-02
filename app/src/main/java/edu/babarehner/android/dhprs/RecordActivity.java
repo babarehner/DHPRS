@@ -176,7 +176,8 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
                 RecordContract.RecordEntry.CCOMMENTS};
 
         // Start a new thread
-        return new CursorLoader(this, mCurrentRecordUri, projection, null, null, null);
+        return new CursorLoader(this, mCurrentRecordUri, projection, null, null,
+                RecordContract.RecordEntry.CDATE);
     }
 
 
@@ -328,7 +329,14 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         String time12hr = "";
         time12hr = Utility.convert24to12(mHour); // adds an AM or PM to time
 
-        etTime.setText(new StringBuilder().append(Utility.pad(mHour)).append(":").append(Utility.pad(mMinute))
+        int hours = mHour;
+        if (hours > 12){
+            hours -= 12;
+        } else if (hours == 0){
+            hours += 12;
+        }
+
+        etTime.setText(new StringBuilder().append(hours).append(":").append(Utility.pad(mMinute))
                 .append(" ").append(time12hr));
     }
 
@@ -382,6 +390,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
 
     private void saveRecord() {
+
         // read from input fields. Add date & time to get correct sort order for date + time
         String strDateTime = etDate.getText().toString() + " " + etTime.getText().toString();
 

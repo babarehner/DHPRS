@@ -26,10 +26,10 @@ public class Utility {
 
         String ampm;
         if (hours > 12) {
-            hours -= 12;
+            // hours -= 12;
             ampm = "PM";
         } else if (hours == 0) {
-            hours += 12;
+            // hours += 12;
             ampm = "AM";
         } else if (hours == 12)
             ampm = "PM";
