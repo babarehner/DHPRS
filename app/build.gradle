@@ -6,8 +6,8 @@ android {
         applicationId "edu.babarehner.android.dhprs"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 160010000
-        versionName "1.0.0"
+        versionCode 160010001
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,7 +18,7 @@ android {
     }
     productFlavors {
     }
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {

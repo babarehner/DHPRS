@@ -137,7 +137,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         
         // Set up Touch listener on all the input fields to see if user touched a field
         etDate.setOnTouchListener(mTouchListener);
-        etDate.setOnTouchListener(mTouchListener);
+        etTime.setOnTouchListener(mTouchListener);
         sp1.setOnTouchListener(mTouchListener);
         sp2.setOnTouchListener(mTouchListener);
         mPracTypeEditText.setOnTouchListener(mTouchListener);
