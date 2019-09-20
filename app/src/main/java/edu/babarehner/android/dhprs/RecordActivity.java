@@ -364,7 +364,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    // set up the spinners passing the a resource ID, an array of values, i not used currently
+    // set up the spinners passing the a resource ID, an array of values, i is number of spinner
     private Spinner getSpinnerVal(int resourceID, final CharSequence[] a, final int i) {
         Log.v("RecordActivity", Integer.toString(resourceID));
         Spinner s = (Spinner)  findViewById(resourceID);
