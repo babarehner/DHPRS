@@ -115,17 +115,17 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
         // initialization required or it crashes- why doesn't it work when I initialize it above????
         // But the warning review shows these lines are redundant???
-        etDate = (EditText) findViewById(R.id.etDate);
-        etTime = (EditText) findViewById(R.id.etTime);
+        etDate = findViewById(R.id.etDate);
+        etTime =  findViewById(R.id.etTime);
         // Find all input views to read from
         sp1 = (Spinner) findViewById(R.id.sp_1);
         sp2 = (Spinner) findViewById(R.id.sp_2);
         spPracAid = (Spinner) findViewById(R.id.sp_prac_aid);
-        mPracTypeEditText = (EditText) findViewById(R.id.prac_type);
+        mPracTypeEditText = findViewById(R.id.prac_type);
         sp3 = (Spinner) findViewById(R.id.sp_3);
         sp4 = (Spinner) findViewById(R.id.sp_4);
-        mPracLen = (EditText) findViewById(R.id.prac_len);
-        mCommentEditText = (EditText) findViewById(R.id.comment);
+        mPracLen = findViewById(R.id.prac_len);
+        mCommentEditText = findViewById(R.id.comment);
 
 
         // Get Practice Aids from db and put in Array for PracticeAid spinner
@@ -297,7 +297,7 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
 
     public void getTime() {
         // get View elements
-        etTime = (EditText) findViewById(R.id.etTime);
+        etTime =  findViewById(R.id.etTime);
         pickTime = (Button) findViewById(R.id.pick_time);
         // add a click listener to the button
         pickTime.setOnClickListener((new View.OnClickListener() {
@@ -524,13 +524,13 @@ public class RecordActivity extends AppCompatActivity implements LoaderManager.L
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
         // get all the headings to push to share
-        TextView tvPracType = (TextView) findViewById(R.id.tv_prac_type);
-        TextView tvPracAid = (TextView) findViewById(R.id.tv_prac_aid);
-        TextView tvSympBefore = (TextView) findViewById(R.id.tv_symptom_before);
-        TextView tvSympAfter = (TextView) findViewById(R.id.tv_symptom_after);
-        TextView tvStressBefore = (TextView) findViewById(R.id.tv_stress_before);
-        TextView tvStressAfter = (TextView) findViewById(R.id.tv_stress_after);
-        TextView tvPracLen = (TextView) findViewById(R.id.tv_prac_len);
+        TextView tvPracType = findViewById(R.id.tv_prac_type);
+        TextView tvPracAid =  findViewById(R.id.tv_prac_aid);
+        TextView tvSympBefore =  findViewById(R.id.tv_symptom_before);
+        TextView tvSympAfter = findViewById(R.id.tv_symptom_after);
+        TextView tvStressBefore =  findViewById(R.id.tv_stress_before);
+        TextView tvStressAfter =  findViewById(R.id.tv_stress_after);
+        TextView tvPracLen = findViewById(R.id.tv_prac_len);
         String comment = "Comment: ";
 
         StringBuilder sb = new StringBuilder();
