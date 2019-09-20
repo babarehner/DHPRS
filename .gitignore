@@ -1,0 +1,16 @@
+# Following added by Android Studio when it created the git repository
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+####################################
+# following added by Mike Rehner
+.idea/assetWizardSettings.xml
+.idea/
+
